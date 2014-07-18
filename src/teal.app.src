@@ -1,0 +1,6 @@
+{application, teal,
+  [{vsn, "0.1.0"},
+  {modules, [teal]},
+  {registered, []},
+  {mod, {teal, []}}
+  ]}.
