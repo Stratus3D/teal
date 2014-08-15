@@ -1,7 +1,8 @@
 -module(teal_lists).
 
 -export([is_flat/1, assert_is_flat/1, assert_is_flat/2,
-        same_members/2, assert_same_members/2, assert_same_members/3
+        same_members/2, assert_same_members/2, assert_same_members/3,
+         includes_members/2, include/2
         ]).
 
 -spec is_flat(List :: list()) -> true.
