@@ -9,6 +9,17 @@ An experimental Erlang assertion library. Still in development.
 
 ## Installation
 
+To build teal `cd` to the project root and run `make`.
+
+To make teal available during your tests. Added it to your `ERL_LIBS` environment variable(most likely defined in `~/.bashrc` if you are using Bash):
+
+    export ERL_LIBS=/full/path/to/teal/
+
+Also add it to your Erlang resource file (`~/.erlang`) like so:
+
+    code:load_abs("/full/path/to/teal/").
+
+All the teal modules should now be able in your tests.
 
 ## Usage
 
