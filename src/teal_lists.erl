@@ -37,7 +37,15 @@ assert_same_members(List1, List2, _Msg) ->
 -spec includes_members(List :: list(), Members :: list()) -> true.
 
 includes_members(List, Members) ->
-    true.
+    % Check if each of the members is in the list, and store the result
+    % in a list of results
+    MemberResults = lists:map(fun(Member) ->
+                    lists:member(Member, List)
+            end, Members),
+    % Verify that all of the results are true
+    lists:all(fun(Result) ->
+                Result
+        end, MemberResults).
 
 -spec include(List :: list(), Item :: any()) -> true.
 

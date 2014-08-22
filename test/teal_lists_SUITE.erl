@@ -60,10 +60,10 @@ test_includes_members(_Config) ->
     List = [a,b,c,d,e,f],
 
     % Should return true when all items are in the list
-    true = teal_list:includes_members(List, [a,b,e]),
+    true = teal_lists:includes_members(List, [a,b,e]),
 
     % Should return false when a item is not in the list
-    false = teal_list:includes_members(List, [a,g]).
+    false = teal_lists:includes_members(List, [a,g]).
 
 test_include(_Config) ->
     %(List, Item) ->
