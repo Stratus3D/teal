@@ -37,7 +37,9 @@ Create the following assertions:
   * `teal:not_of_type/2`
   * `teal:could_be_record/1`
   * `teal:not_record/1`
-  * `teal_numbers:close_to/2` Args: Value, Delta
+  * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
+  * `teal_behaviours:is_behaviour/1`, Args: `Module :: atom()`
+  * `teal_behaviours:has_callback/3`, Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
 
 ## Known Issues
 No known issues. If you see something that could be improved feel free to open an issue on GitHub ([https://github.com/Stratus3D/teal/issues](https://github.com/Stratus3D/teal/issues))
