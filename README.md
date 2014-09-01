@@ -25,14 +25,12 @@ All the teal modules should now be able in your tests.
 
 ## API
 ####teal_lists
-* `includes_members/2`
-
-   Args: `List :: list(), Members :: list()`
+* `includes_members/2` - Args: `List :: list(), Members :: list()`
 
    Checks if all members of the `Members` list are present in the `List` list. Examples:
 
-       teal:lists([1,2,3,4], [2,4]). %=> true
-       teal:lists([1,2,3,4], [5]). %=> false
+        teal:lists([1,2,3,4], [2,4]). %=> true
+        teal:lists([1,2,3,4], [5]). %=> false
 
 
 ## TODO
