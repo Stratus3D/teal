@@ -2,7 +2,7 @@
 
 -export([is_flat/1, assert_is_flat/1, assert_is_flat/2,
         same_members/2, assert_same_members/2, assert_same_members/3,
-         includes_members/2, include/2
+         assert_includes_members/2, includes_members/2, include/2
         ]).
 
 -spec is_flat(List :: list()) -> true.
@@ -34,7 +34,12 @@ assert_same_members(List1, List2) ->
 assert_same_members(List1, List2, _Msg) ->
     true.
 
--spec includes_members(List :: list(), Members :: list()) -> true.
+-spec assert_includes_members(List :: list(), Members :: list()) -> boolean().
+
+assert_includes_members(List, Members) ->
+    teal:assert(true, includes_members(List, Members), members_missing).
+
+-spec includes_members(List :: list(), Members :: list()) -> boolean().
 
 includes_members(List, Members) ->
     % Check if each of the members is in the list, and store the result
