@@ -23,6 +23,18 @@ All the teal modules should now be able in your tests.
 
 ## Usage
 
+## API
+####teal_lists
+* `includes_members/2`
+
+   Args: `List :: list(), Members :: list()`
+
+   Checks if all members of the `Members` list are present in the `List` list. Examples:
+
+       teal:lists([1,2,3,4], [2,4]). %=> true
+       teal:lists([1,2,3,4], [5]). %=> false
+
+
 ## TODO
 Create the following assertions:
 
@@ -37,6 +49,7 @@ Create the following assertions:
   * `teal:not_of_type/2`
   * `teal:could_be_record/1`
   * `teal:not_record/1`
+  * `teal_process:is_registered/1`
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
   * `teal_behaviours:is_behaviour/1`, Args: `Module :: atom()`
   * `teal_behaviours:has_callback/3`, Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
