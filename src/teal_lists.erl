@@ -2,7 +2,8 @@
 
 -export([is_flat/1, assert_is_flat/1, assert_is_flat/2,
         same_members/2, assert_same_members/2, assert_same_members/3,
-         assert_includes_members/2, includes_members/2, include/2
+         assert_includes_members/2, includes_members/2,
+         assert_include/2, include/2
         ]).
 
 -spec is_flat(List :: list()) -> true.
@@ -52,7 +53,13 @@ includes_members(List, Members) ->
                 Result
         end, MemberResults).
 
+
+-spec assert_include(List :: list(), Item :: any()) -> true.
+
+assert_include(List, Item) ->
+    teal:assert(true, include(List, Item), member_missing).
+
 -spec include(List :: list(), Item :: any()) -> true.
 
 include(List, Item) ->
-    true.
+    lists:member(Item, List).

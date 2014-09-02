@@ -15,7 +15,8 @@
 %% Test cases
 -export([test_includes_members/1,
          test_assert_includes_members/1,
-         test_include/1]).
+         test_include/1,
+         test_assert_include/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -24,7 +25,8 @@
 %%%===================================================================
 
 all() ->
-    [test_includes_members, test_assert_includes_members, test_include].
+    [test_includes_members, test_assert_includes_members,
+     test_include, test_assert_include].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -77,5 +79,24 @@ test_assert_includes_members(_Config) ->
     end.
 
 test_include(_Config) ->
-    %(List, Item) ->
-    true.
+    List = [a,b,c,d,e,f],
+
+    % Should return true when item is present in list
+    true = teal_lists:include(List, c),
+
+    % Should return false when item is not present in list
+    false = teal_lists:include(List, g).
+
+test_assert_include(_Config) ->
+    List = [a,b,c,d,e,f],
+
+    % Should return true when item is present in list
+    true = teal_lists:assert_include(List, c),
+
+    % Should raise an error if item is not present
+    try teal_lists:assert_include(List, g) of
+        _ -> erlang:error(failed)
+    catch
+        error:member_missing ->
+            true
+    end.
