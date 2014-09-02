@@ -49,6 +49,8 @@ Create the following assertions:
   * `teal:not_record/1`
   * `teal_process:is_registered/1`
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
+  * `teal_modules:exports/2` Args: `Module :: atom(), Function :: atom()`
+  * `teal_modules:exports/3` Args: `Module :: atom(), Function :: atom(), Arity :: integer()`
   * `teal_behaviours:is_behaviour/1`, Args: `Module :: atom()`
   * `teal_behaviours:has_callback/3`, Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
 
