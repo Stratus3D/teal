@@ -13,7 +13,9 @@
          end_per_testcase/2]).
 
 %% Test cases
--export([test_includes_members/1,
+-export([test_is_flat/1,
+         test_assert_is_flat/1,
+         test_includes_members/1,
          test_assert_includes_members/1,
          test_include/1,
          test_assert_include/1]).
@@ -25,7 +27,8 @@
 %%%===================================================================
 
 all() ->
-    [test_includes_members, test_assert_includes_members,
+    [test_is_flat, test_assert_is_flat,
+     test_includes_members, test_assert_includes_members,
      test_include, test_assert_include].
 
 suite() ->
@@ -58,6 +61,26 @@ end_per_testcase(_TestCase, _Config) ->
 %%%===================================================================
 %%% Test cases
 %%%===================================================================
+
+test_is_flat(_Config) ->
+    FlatList = [a,b,c,d,e,f],
+    List = [a,b,c,[d,e,f],g],
+
+    % Should return true when all items are in the list
+    true = teal_lists:is_flat(FlatList),
+
+    % Should return false when a item is not in the list
+    false = teal_lists:is_flat(List).
+
+test_assert_is_flat(_Config) ->
+    List = [a,b,c,[d,e,f],g],
+
+    try teal_lists:assert_is_flat(List) of
+        _ -> erlang:error(failed)
+    catch
+        error:contains_sublists ->
+            true
+    end.
 
 test_includes_members(_Config) ->
     List = [a,b,c,d,e,f],

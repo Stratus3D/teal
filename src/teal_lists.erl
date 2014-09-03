@@ -8,14 +8,21 @@
 
 -spec is_flat(List :: list()) -> true.
 
-is_flat(_List) ->
-    true.
+is_flat(List) ->
+    lists:all(fun(Item) ->
+                case Item of
+                    Item when is_list(Item) ->
+                        false;
+                    _ ->
+                        true
+                end
+        end, List).
 
 
 -spec assert_is_flat(List :: list()) -> true.
 
-assert_is_flat(_List) ->
-    true.
+assert_is_flat(List) ->
+    teal:assert(true, is_flat(List), contains_sublists).
 
 
 -spec assert_is_flat(List :: list(), Msg :: iolist()) -> true.
