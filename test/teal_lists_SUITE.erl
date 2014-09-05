@@ -13,10 +13,8 @@
          end_per_testcase/2]).
 
 %% Test cases
--export([test_is_flat/1,
-         test_assert_is_flat/1,
-         test_includes_members/1,
-         test_assert_includes_members/1,
+-export([test_is_flat/1, test_assert_is_flat/1, test_assert_is_flat_2/1,
+         test_includes_members/1, test_assert_includes_members/1, test_assert_includes_members_3/1,
          test_include/1,
          test_assert_include/1]).
 
@@ -27,8 +25,8 @@
 %%%===================================================================
 
 all() ->
-    [test_is_flat, test_assert_is_flat,
-     test_includes_members, test_assert_includes_members,
+    [test_is_flat, test_assert_is_flat, test_assert_is_flat,
+     test_includes_members, test_assert_includes_members, test_assert_includes_members_3,
      test_include, test_assert_include].
 
 suite() ->
@@ -75,10 +73,22 @@ test_is_flat(_Config) ->
 test_assert_is_flat(_Config) ->
     List = [a,b,c,[d,e,f],g],
 
+    % Should raise a contains_sublists error when list is not flat
     try teal_lists:assert_is_flat(List) of
         _ -> erlang:error(failed)
     catch
         error:contains_sublists ->
+            true
+    end.
+test_assert_is_flat_2(_Config) ->
+    List = [a,b,c,[d,e,f],g],
+    Error = not_flat,
+
+    % Should raise a contains_sublists error when list is not flat
+    try teal_lists:assert_is_flat(List, Error) of
+        _ -> erlang:error(failed)
+    catch
+        error:Error ->
             true
     end.
 
@@ -94,10 +104,23 @@ test_includes_members(_Config) ->
 test_assert_includes_members(_Config) ->
     List = [a,b,c,d,e,f],
 
+    % Should raise a members_missing error when members are not present
     try teal_lists:assert_includes_members(List, [a,g]) of
         _ -> erlang:error(failed)
     catch
         error:members_missing ->
+            true
+    end.
+
+test_assert_includes_members_3(_Config) ->
+    List = [a,b,c,d,e,f],
+    Error = test123,
+
+    % Should raise a the given error when members are not present
+    try teal_lists:assert_includes_members(List, [a,g], Error) of
+        _ -> erlang:error(failed)
+    catch
+        error:Error ->
             true
     end.
 

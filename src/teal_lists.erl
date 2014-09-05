@@ -2,7 +2,7 @@
 
 -export([is_flat/1, assert_is_flat/1, assert_is_flat/2,
         same_members/2, assert_same_members/2, assert_same_members/3,
-         assert_includes_members/2, includes_members/2,
+         includes_members/2, assert_includes_members/2, assert_includes_members/3,
          assert_include/2, include/2
         ]).
 
@@ -27,8 +27,8 @@ assert_is_flat(List) ->
 
 -spec assert_is_flat(List :: list(), Msg :: iolist()) -> true.
 
-assert_is_flat(_List, _Msg) ->
-    true.
+assert_is_flat(List, Msg) ->
+    teal:assert(true, is_flat(List), Msg).
 
 
 -spec same_members(List1 :: list(), List2 :: list()) -> true.
@@ -42,11 +42,6 @@ assert_same_members(List1, List2) ->
 assert_same_members(List1, List2, _Msg) ->
     true.
 
--spec assert_includes_members(List :: list(), Members :: list()) -> boolean().
-
-assert_includes_members(List, Members) ->
-    teal:assert(true, includes_members(List, Members), members_missing).
-
 -spec includes_members(List :: list(), Members :: list()) -> boolean().
 
 includes_members(List, Members) ->
@@ -59,6 +54,17 @@ includes_members(List, Members) ->
     lists:all(fun(Result) ->
                 Result
         end, MemberResults).
+
+-spec assert_includes_members(List :: list(), Members :: list()) -> boolean().
+
+assert_includes_members(List, Members) ->
+    teal:assert(true, includes_members(List, Members), members_missing).
+
+-spec assert_includes_members(List :: list(), Members :: list(),
+                              Msg :: atom()) -> boolean().
+
+assert_includes_members(List, Members, Msg) ->
+    teal:assert(true, includes_members(List, Members), Msg).
 
 
 -spec assert_include(List :: list(), Item :: any()) -> true.
