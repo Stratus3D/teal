@@ -53,6 +53,7 @@ Create the following assertions:
   * `teal_modules:exports/3` Args: `Module :: atom(), Function :: atom(), Arity :: integer()`
   * `teal_behaviours:is_behaviour/1`, Args: `Module :: atom()`
   * `teal_behaviours:has_callback/3`, Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
+  * `teal_behaviours:implements_behaviour/1`, Args: `Module :: atom()`
 
 ## Known Issues
 No known issues. If you see something that could be improved feel free to open an issue on GitHub ([https://github.com/Stratus3D/teal/issues](https://github.com/Stratus3D/teal/issues))
