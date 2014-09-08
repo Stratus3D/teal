@@ -47,7 +47,7 @@ Create the following assertions:
   * `teal:not_of_type/2`
   * `teal:could_be_record/1`
   * `teal:not_record/1`
-  * `teal_process:is_registered/1`
+  * `teal_process:is_registered/1` Args: `Process :: pid() | atom()`
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
   * `teal_modules:exports/2` Args: `Module :: atom(), Function :: atom()`
   * `teal_modules:exports/3` Args: `Module :: atom(), Function :: atom(), Arity :: integer()`
