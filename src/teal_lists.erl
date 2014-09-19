@@ -18,12 +18,10 @@ is_flat(List) ->
                 end
         end, List).
 
-
 -spec assert_is_flat(List :: list()) -> true.
 
 assert_is_flat(List) ->
     teal:assert(true, is_flat(List), contains_sublists).
-
 
 -spec assert_is_flat(List :: list(), Msg :: iolist()) -> true.
 
@@ -67,12 +65,12 @@ assert_includes_members(List, Members, Msg) ->
     teal:assert(true, includes_members(List, Members), Msg).
 
 
--spec assert_include(List :: list(), Item :: any()) -> true.
-
-assert_include(List, Item) ->
-    teal:assert(true, include(List, Item), member_missing).
-
 -spec include(List :: list(), Item :: any()) -> true.
 
 include(List, Item) ->
     lists:member(Item, List).
+
+-spec assert_include(List :: list(), Item :: any()) -> true.
+
+assert_include(List, Item) ->
+    teal:assert(true, include(List, Item), member_missing).
