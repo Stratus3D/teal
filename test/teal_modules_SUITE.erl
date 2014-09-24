@@ -14,7 +14,8 @@
 
 %% Test cases
 -export([test_exports_2/1,
-         test_exports_3/1]).
+         test_exports_3/1,
+         test_assert_exports_2/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -23,7 +24,8 @@
 %%%===================================================================
 
 all() ->
-    [test_exports_2, test_exports_3].
+    [test_exports_2, test_exports_3,
+     test_assert_exports_2].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -63,6 +65,19 @@ test_exports_2(_Config) ->
     % Should return false when the module does not export a function with the
     % name
     false = teal_modules:exports(erlang, missing_fun).
+
+test_assert_exports_2(_Config) ->
+    % Should return true when the module exports a function with the given name
+    true = teal_modules:assert_exports(erlang, port_call),
+
+    % Should raise an error when the module does not export a function with the
+    % name
+    try teal_modules:assert_exports(erlang, missing_fun) of
+        _ -> erlang:error(failed)
+    catch
+        error:function_not_exported ->
+            true
+    end.
 
 test_exports_3(_Config) ->
     % Should return true when the module exports a function with the given name
