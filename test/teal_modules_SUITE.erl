@@ -14,9 +14,11 @@
 
 %% Test cases
 -export([test_exports_2/1,
-         test_exports_3/1,
          test_assert_exports_2/1,
-         test_assert_exports_3/1]).
+         test_assert_exports_3/1,
+         test_exports_with_arity_3/1,
+         test_assert_exports_with_arity_3/1,
+         test_assert_exports_with_arity_4/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -25,8 +27,11 @@
 %%%===================================================================
 
 all() ->
-    [test_exports_2, test_exports_3,
-     test_assert_exports_2, test_assert_exports_3].
+    [test_exports_2,
+     test_assert_exports_2, test_assert_exports_3,
+     test_exports_with_arity_3, test_assert_exports_with_arity_3,
+     test_assert_exports_with_arity_4].
+
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -81,26 +86,58 @@ test_assert_exports_2(_Config) ->
     end.
 
 test_assert_exports_3(_Config) ->
+    CustomMsg = custom_msg,
     % Should return true when the module exports a function with the given name
     true = teal_modules:assert_exports(erlang, port_call),
 
     % Should raise an error when the module does not export a function with the
     % name
-    try teal_modules:assert_exports(erlang, missing_fun, custom_msg) of
+    try teal_modules:assert_exports(erlang, missing_fun, CustomMsg) of
         _ -> erlang:error(failed)
     catch
-        error:custom_msg ->
+        error:CustomMsg ->
             true
     end.
 
-test_exports_3(_Config) ->
+test_exports_with_arity_3(_Config) ->
     % Should return true when the module exports a function with the given name
+    % and arity
     true = teal_modules:exports_with_arity(erlang, port_call, 2),
 
     % Should return false when the module does not export a function with the
-    % name
+    % name and arity
     false = teal_modules:exports_with_arity(erlang, missing_fun, 2),
 
     % Should return false when the module does not export a function with the
     % same arity
     false = teal_modules:exports_with_arity(erlang, port_call, 1).
+
+test_assert_exports_with_arity_3(_Config) ->
+    % Should return true when the module exports a function with the given name
+    % and arity
+    true = teal_modules:assert_exports_with_arity(erlang, port_call, 2),
+
+    % Should raise an error when the module does not export a function with the
+    % name and arity given
+    try teal_modules:assert_exports_with_arity(erlang, missing_fun, 2) of
+        _ -> erlang:error(failed)
+    catch
+        error:function_not_exported ->
+            true
+    end.
+
+test_assert_exports_with_arity_4(_Config) ->
+    CustomMsg = custom_msg,
+    % Should return true when the module exports a function with the given name
+    % and arity
+    true = teal_modules:assert_exports_with_arity(erlang, port_call, 2),
+
+    % Should raise an error with the custom message when the module does not
+    % export a function with the name and arity given
+    try teal_modules:assert_exports_with_arity(erlang, missing_fun, 2,
+                                               CustomMsg) of
+        _ -> erlang:error(failed)
+    catch
+        error:CustomMsg ->
+            true
+    end.
