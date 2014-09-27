@@ -51,8 +51,6 @@ Create the following assertions:
   * `teal_process:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
   * `teal_process:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
-  * `teal_modules:exports/2` Args: `Module :: atom(), Function :: atom()`
-  * `teal_modules:exports/3` Args: `Module :: atom(), Function :: atom(), Arity :: integer()`
   * `teal_behaviours:is_behaviour/1`, Args: `Module :: atom()`
   * `teal_behaviours:has_callback/3`, Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
   * `teal_behaviours:implements_behaviour/1`, Args: `Module :: atom()`
