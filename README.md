@@ -32,6 +32,14 @@ All the teal modules should now be able in your tests.
         teal:lists([1,2,3,4], [2,4]). %=> true
         teal:lists([1,2,3,4], [5]). %=> false
 
+####teal_modules
+* `exports/2` - Args: `Module :: atom(), Function :: atom()`
+
+   Check if `Module` exports a function with a name that matches `Function`.
+
+        teal_modules:exports(erlang, port_call). %=> true
+        teal_modules:exports(erlang, missing_fun). %=> false
+
 
 ## TODO
 Create the following assertions:
