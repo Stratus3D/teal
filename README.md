@@ -40,6 +40,13 @@ All the teal modules should now be able in your tests.
         teal_modules:exports(erlang, port_call). %=> true
         teal_modules:exports(erlang, missing_fun). %=> false
 
+* `exports_with_arity/3` - Args: `Module :: atom(), Function :: atom(), Arity :: integer()`
+
+   Check if `Module` exports a function with a name that matches `Function` and an arity of `Arity`.
+
+        teal_modules:exports(erlang, port_call, 2). %=> true
+        teal_modules:exports(erlang, port_call, 1). %=> false
+
 
 ## TODO
 Create the following assertions:
