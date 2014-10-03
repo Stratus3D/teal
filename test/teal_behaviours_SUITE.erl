@@ -13,7 +13,7 @@
          end_per_testcase/2]).
 
 %% Test cases
--export([test_is_behaviour/1]).
+-export([test_has_callback/1, test_is_behaviour/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -22,7 +22,7 @@
 %%%===================================================================
 
 all() ->
-    [test_is_behaviour].
+    [test_has_callback, test_is_behaviour].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -54,6 +54,13 @@ end_per_testcase(_TestCase, _Config) ->
 %%%===================================================================
 %%% Test cases
 %%%===================================================================
+
+test_has_callback(_Config) ->
+    % Should return true when the module is a behaviour
+    true = teal_behaviours:has_callback(gen_server, handle_call, 3),
+
+    % Should return false when the module is not a behaviour
+    false = teal_behaviours:has_callback(erlang, callback, 1).
 
 test_is_behaviour(_Config) ->
     % Should return true when the module is a behaviour
