@@ -1,6 +1,7 @@
 -module(teal_behaviours).
 
--export([has_callback/3,
+-export([
+    has_callback/3, assert_has_callback/3, assert_has_callback/4,
     is_behaviour/1]).
 
 %%%===================================================================
@@ -17,6 +18,19 @@ has_callback(Module, Name, Arity) ->
                 {{CallbackName, CallbackArity}, _Args} = CallbackDetails,
                 ({CallbackName, CallbackArity} == {Name, Arity})
         end, Callbacks).
+
+
+-spec assert_has_callback(Module :: atom(), Name :: atom(), Arity :: integer()) ->
+    boolean().
+
+assert_has_callback(Module, Name, Arity) ->
+    teal:assert(true, has_callback(Module, Name, Arity), no_callback).
+
+-spec assert_has_callback(Module :: atom(), Name :: atom(), Arity :: integer(), Msg :: atom()) ->
+    boolean().
+
+assert_has_callback(Module, Name, Arity, Msg) ->
+    teal:assert(true, has_callback(Module, Name, Arity), Msg).
 
 -spec is_behaviour(Module :: atom()) -> boolean().
 
