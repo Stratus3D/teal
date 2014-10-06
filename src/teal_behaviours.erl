@@ -1,6 +1,7 @@
 -module(teal_behaviours).
 
--export([has_callback/3, assert_has_callback/3, assert_has_callback/4,
+-export([
+    has_callback/3, assert_has_callback/3, assert_has_callback/4,
     is_behaviour/1]).
 
 %%%===================================================================
