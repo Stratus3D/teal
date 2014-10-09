@@ -2,7 +2,7 @@
 
 -export([
     has_callback/3, assert_has_callback/3, assert_has_callback/4,
-    is_behaviour/1]).
+    is_behaviour/1, assert_is_behaviour/1, assert_is_behaviour/2]).
 
 %%%===================================================================
 %%% API
@@ -40,6 +40,16 @@ is_behaviour(Module) ->
         _ ->
             true
     end.
+
+-spec assert_is_behaviour(Module :: atom()) -> boolean().
+
+assert_is_behaviour(Module) ->
+    teal:assert(true, is_behaviour(Module), not_behaviour).
+
+-spec assert_is_behaviour(Module :: atom(), Msg :: atom()) -> boolean().
+
+assert_is_behaviour(Module, Msg) ->
+    teal:assert(true, is_behaviour(Module), Msg).
 
 %%%===================================================================
 %%% Private functions
