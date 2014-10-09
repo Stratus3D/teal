@@ -14,7 +14,7 @@
 
 %% Test cases
 -export([test_has_callback/1, test_assert_has_callback_3/1, test_assert_has_callback_4/1,
-         test_is_behaviour/1]).
+         test_is_behaviour/1, test_assert_is_behaviour_1/1, test_assert_is_behaviour_2/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -24,7 +24,7 @@
 
 all() ->
     [test_has_callback, test_assert_has_callback_3, test_assert_has_callback_4,
-     test_is_behaviour].
+     test_is_behaviour, test_assert_is_behaviour_1, test_assert_is_behaviour_2].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -96,3 +96,29 @@ test_is_behaviour(_Config) ->
 
     % Should return false when the module is not a behaviour
     false = teal_behaviours:is_behaviour(erlang).
+
+test_assert_is_behaviour_1(_Config) ->
+    % Should return true when the module is a behaviour
+    true = teal_behaviours:assert_is_behaviour(gen_server),
+
+    % Should raise an error when the module is not a behaviour
+    try teal_behaviours:assert_is_behaviour(erlang) of
+        _ -> erlang:error(failed)
+    catch
+        error:not_behaviour ->
+            true
+    end.
+
+test_assert_is_behaviour_2(_Config) ->
+    Msg = custom_msg,
+
+    % Should return true when the module is a behaviour
+    true = teal_behaviours:assert_is_behaviour(gen_server, Msg),
+
+    % Should raise an error when the module is not a behaviour
+    try teal_behaviours:assert_is_behaviour(erlang, Msg) of
+        _ -> erlang:error(failed)
+    catch
+        error:Msg ->
+            true
+    end.
