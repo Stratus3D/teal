@@ -14,7 +14,8 @@
 
 %% Test cases
 -export([test_has_callback/1, test_assert_has_callback_3/1, test_assert_has_callback_4/1,
-         test_is_behaviour/1, test_assert_is_behaviour_1/1, test_assert_is_behaviour_2/1]).
+         test_is_behaviour/1, test_assert_is_behaviour_1/1, test_assert_is_behaviour_2/1,
+         test_implements_behaviour/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -24,7 +25,8 @@
 
 all() ->
     [test_has_callback, test_assert_has_callback_3, test_assert_has_callback_4,
-     test_is_behaviour, test_assert_is_behaviour_1, test_assert_is_behaviour_2].
+     test_is_behaviour, test_assert_is_behaviour_1, test_assert_is_behaviour_2,
+     test_implements_behaviour].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -122,3 +124,6 @@ test_assert_is_behaviour_2(_Config) ->
         error:Msg ->
             true
     end.
+
+test_implements_behaviour(_Config) ->
+    teal_behaviours:implements_behaviour(?MODULE, gen_server).
