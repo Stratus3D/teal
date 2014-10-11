@@ -126,4 +126,8 @@ test_assert_is_behaviour_2(_Config) ->
     end.
 
 test_implements_behaviour(_Config) ->
-    teal_behaviours:implements_behaviour(?MODULE, gen_server).
+    % Should return false when the module doesn't implement the behaviour
+    false = teal_behaviours:implements_behaviour(?MODULE, gen_server),
+
+    % Should return true when the module implements the behaviour
+    true = teal_behaviours:implements_behaviour(supervisor, gen_server).
