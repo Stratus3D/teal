@@ -59,8 +59,10 @@ assert_is_behaviour(Module, Msg) ->
 implements_behaviour(Module, Behaviour) ->
     Callbacks = get_callbacks(Behaviour),
     Exports = Module:module_info(exports),
-    % TODO: finish implementation of this function
-    (Callbacks == Exports).
+    CallbackNameArities = callbacks_to_name_arity(Callbacks),
+    lists:all(fun(Callback) ->
+                lists:member(Callback, Exports)
+        end, CallbackNameArities).
 
 %%%===================================================================
 %%% Private functions
@@ -76,3 +78,8 @@ get_callbacks(Module) ->
                         false
                 end
         end, Attributes).
+
+callbacks_to_name_arity(Callbacks) ->
+    lists:map(fun({_, [{{Name, Arity}, _}]}) ->
+                       {Name, Arity}
+                       end, Callbacks).
