@@ -3,7 +3,8 @@
 -export([
     has_callback/3, assert_has_callback/3, assert_has_callback/4,
     is_behaviour/1, assert_is_behaviour/1, assert_is_behaviour/2,
-    implements_behaviour/2]).
+    implements_behaviour/2, assert_implements_behaviour/2,
+    assert_implements_behaviour/3]).
 
 %%%===================================================================
 %%% API
@@ -63,6 +64,20 @@ implements_behaviour(Module, Behaviour) ->
     lists:all(fun(Callback) ->
                 lists:member(Callback, Exports)
         end, CallbackNameArities).
+
+-spec assert_implements_behaviour(Module :: atom(), Behaviour :: atom()) ->
+    boolean().
+
+assert_implements_behaviour(Module, Behaviour) ->
+    teal:assert(true, implements_behaviour(Module, Behaviour),
+                behaviour_not_implemented).
+
+
+-spec assert_implements_behaviour(Module :: atom(), Behaviour :: atom(),
+                                  Msg :: atom()) -> boolean().
+
+assert_implements_behaviour(Module, Behaviour, Msg) ->
+    teal:assert(true, implements_behaviour(Module, Behaviour), Msg).
 
 %%%===================================================================
 %%% Private functions
