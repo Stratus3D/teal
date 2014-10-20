@@ -15,7 +15,8 @@
 %% Test cases
 -export([test_has_callback/1, test_assert_has_callback_3/1, test_assert_has_callback_4/1,
          test_is_behaviour/1, test_assert_is_behaviour_1/1, test_assert_is_behaviour_2/1,
-         test_implements_behaviour/1]).
+         test_implements_behaviour/1, test_assert_implements_behaviour_2/1,
+         test_assert_implements_behaviour_3/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -26,7 +27,8 @@
 all() ->
     [test_has_callback, test_assert_has_callback_3, test_assert_has_callback_4,
      test_is_behaviour, test_assert_is_behaviour_1, test_assert_is_behaviour_2,
-     test_implements_behaviour].
+     test_implements_behaviour, test_assert_implements_behaviour_2,
+     test_assert_implements_behaviour_3].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -131,3 +133,31 @@ test_implements_behaviour(_Config) ->
 
     % Should return true when the module implements the behaviour
     true = teal_behaviours:implements_behaviour(supervisor, gen_server).
+
+test_assert_implements_behaviour_2(_Config) ->
+    % Should return false when the module doesn't implement the behaviour
+    true = teal_behaviours:assert_implements_behaviour(supervisor, gen_server),
+
+    % Should raise an error when the module does not implement behaviour
+    try teal_behaviours:assert_implements_behaviour(?MODULE, gen_server) of
+        _ -> erlang:error(failed)
+    catch
+        error:behaviour_not_implemented ->
+            true
+    end.
+
+test_assert_implements_behaviour_3(_Config) ->
+    Msg = custom_msg,
+
+    % Should return false when the module doesn't implement the behaviour
+    true = teal_behaviours:assert_implements_behaviour(supervisor,
+                                                       gen_server, Msg),
+
+    % Should raise an error when the module does not implement behaviour
+    try teal_behaviours:assert_implements_behaviour(?MODULE,
+                                                    gen_server, Msg) of
+        _ -> erlang:error(failed)
+    catch
+        error:Msg ->
+            true
+    end.
