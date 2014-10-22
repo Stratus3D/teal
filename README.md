@@ -81,7 +81,7 @@ Create the following assertions:
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
-  * `teal:not_of_type/2`
+  * `teal:not_of_type/2` Args: `Term :: any(), Type :: atom()` Checks if `Term` is not of type `Type`.
   * `teal:could_be_record/1`
   * `teal:not_record/1`
   * `teal_process:is_registered/1` Args: `Process :: pid() | atom()`
