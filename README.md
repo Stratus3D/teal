@@ -47,6 +47,28 @@ All the teal modules should now be able in your tests.
         teal_modules:exports(erlang, port_call, 2). %=> true
         teal_modules:exports(erlang, port_call, 1). %=> false
 
+####teal_behaviours
+* `has_callback/3` - Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
+
+   Checks if `Module` has a function with `Name` and `Arity`.
+
+       teal_behaviours:has_callback(gen_server, handle_call, 3). %=> true
+       teal_behaviours:has_callback(erlang, callback, 1). %=> false
+
+* `is_behaviour/1` - Args: `Module :: atom()`
+
+   Checks if a `Module` is also a behaviour. This is done by checking the module for callback attributes. If any are found `Module` is considered a behaviour.
+
+       teal_behaviours:is_behaviour(gen_server). %=> true
+       teal_behaviours:is_behaviour(erlang). %=> false
+
+* `implements_behaviour/2` - Args: `Module :: atom(), Behaviour :: atom()`
+
+   Check if `Module` implements all the callbacks defined in `Behaviour`. If functions with the same name and arity exist for each callback in `Behaviour` `Module` is assumed to have implemented `Behaviour` correctly.
+
+       teal_behaviours:implements_behaviour(supervisor, gen_server). %=> true
+       teal_behaviours:implements_behaviour(erlang, gen_server). %=> false
+
 
 ## TODO
 Create the following assertions:
