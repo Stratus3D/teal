@@ -13,7 +13,7 @@
          end_per_testcase/2]).
 
 %% Test cases
--export([test_assert/1]).
+-export([test_not_of_type/1, test_assert/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -22,7 +22,7 @@
 %%%===================================================================
 
 all() ->
-    [test_assert].
+    [test_not_of_type, test_assert].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -54,6 +54,25 @@ end_per_testcase(_TestCase, _Config) ->
 %%%===================================================================
 %%% Test cases
 %%%===================================================================
+
+test_not_of_type(_Config) ->
+    % Should return false when the types match
+    false = teal:not_of_type(a, atom),
+    false = teal:not_of_type(<<"test">>, binary),
+    false = teal:not_of_type(<<"test">>, bitstring),
+    false = teal:not_of_type(true, boolean),
+    false = teal:not_of_type(1.0, float),
+    false = teal:not_of_type(fun() -> ok end, function),
+    false = teal:not_of_type(1, integer),
+    false = teal:not_of_type([], list),
+    false = teal:not_of_type(1, number),
+    false = teal:not_of_type(self(), pid),
+    false = teal:not_of_type({}, tuple),
+    %false = teal:not_of_type(port, port),
+    %false = teal:not_of_type(reference, reference),
+
+    % Should return true when types are different
+    true = teal:not_of_type(a, binary).
 
 test_assert(_Config) ->
     % Should return true when first to arguments are equal
