@@ -1,6 +1,6 @@
 -module(teal).
 
--export([assert/3, not_of_type/2]).
+-export([assert/3, not_equal/2, not_of_type/2]).
 
 %%%===================================================================
 %%% API
@@ -14,6 +14,16 @@ assert(Lhs, Rhs, Message) ->
     catch
         error:{badmatch, _} ->
             erlang:error(Message)
+    end.
+
+-spec not_equal(Term1 :: any(), Term2 :: any()) -> boolean().
+
+not_equal(Term1, Term2) ->
+    case Term1 of
+        Term2 ->
+            false;
+        _ ->
+            true
     end.
 
 -spec not_of_type(Term :: atom(), Type :: atom()) -> atom().
