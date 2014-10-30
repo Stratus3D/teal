@@ -13,7 +13,8 @@
          end_per_testcase/2]).
 
 %% Test cases
--export([test_not_of_type/1, test_not_equal/1, test_assert/1]).
+-export([test_not_of_type/1, test_not_equal/1, test_assert_not_equal/1,
+         test_assert/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -22,7 +23,7 @@
 %%%===================================================================
 
 all() ->
-    [test_not_of_type, test_not_equal, test_assert].
+    [test_not_of_type, test_not_equal, test_assert_not_equal, test_assert].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -80,6 +81,18 @@ test_not_equal(_Config) ->
 
     % Should return false when terms are equal
     false = teal:not_equal(a, a).
+
+test_assert_not_equal(_Config) ->
+    % Should return true when terms are not equal
+    true = teal:assert_not_equal(a, b),
+
+    % Should raise an error when the module does not implement behaviour
+    try teal:assert_not_equal(a, a) of
+        _ -> erlang:error(failed)
+    catch
+        error:equal ->
+            true
+    end.
 
 test_assert(_Config) ->
     % Should return true when first to arguments are equal
