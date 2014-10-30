@@ -24,6 +24,15 @@ All the teal modules should now be able in your tests.
 ## Usage
 
 ## API
+
+####teal
+* `not_equal/2` - Args: `Term1 :: term(), Term2 :: term()`
+
+   Verifies that first term does not match the second.
+
+        teal:not_equal(a, b). %=> true
+        teal:not_equal(a, a). %=> false
+
 ####teal_lists
 * `includes_members/2` - Args: `List :: list(), Members :: list()`
 
