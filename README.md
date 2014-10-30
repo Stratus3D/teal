@@ -73,7 +73,6 @@ All the teal modules should now be able in your tests.
 ## TODO
 Create the following assertions:
 
-  * `teal:not/2` Args: `First :: term(), Second :: term()` Verifies that first term does not match the second.
   * `teal:exception/3`
   * `teal:error/2`
   * `teal:exit/2`
