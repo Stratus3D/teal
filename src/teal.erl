@@ -1,6 +1,8 @@
 -module(teal).
 
--export([assert/3, not_equal/2, assert_not_equal/2, not_of_type/2]).
+-export([assert/3,
+         not_equal/2, assert_not_equal/2, assert_not_equal/3,
+         not_of_type/2]).
 
 %%%===================================================================
 %%% API
@@ -30,6 +32,11 @@ not_equal(Term1, Term2) ->
 
 assert_not_equal(Term1, Term2) ->
     teal:assert(true, not_equal(Term1, Term2), equal).
+
+-spec assert_not_equal(Term1 :: any(), Term2 :: any(), Msg :: atom()) -> boolean().
+
+assert_not_equal(Term1, Term2, Msg) ->
+    teal:assert(true, not_equal(Term1, Term2), Msg).
 
 -spec not_of_type(Term :: atom(), Type :: atom()) -> atom().
 
