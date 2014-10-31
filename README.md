@@ -86,12 +86,13 @@ Create the following assertions:
   * `teal:error/2`
   * `teal:exit/2`
   * `teal:throw/2`
+  * `teal:could_be_record/1`
+  * `teal:not_record/1`
+  * `teal:not_of_type/2` Args: `Term :: any(), Type :: atom()` Checks if `Term` is not of type `Type`.
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
-  * `teal:not_of_type/2` Args: `Term :: any(), Type :: atom()` Checks if `Term` is not of type `Type`.
-  * `teal:could_be_record/1`
-  * `teal:not_record/1`
+  * `teal_modules:is_module/1` Args: `ModuleName :: atom()` Checks if ModuleName is the name of an Erlang module
   * `teal_process:is_registered/1` Args: `Process :: pid() | atom()`
   * `teal_process:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
   * `teal_process:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
