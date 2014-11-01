@@ -1,6 +1,7 @@
 -module(teal_modules).
 
--export([is_module/1, exports/2, assert_exports/2, assert_exports/3,
+-export([is_module/1, assert_is_module/1, assert_is_module/2,
+         exports/2, assert_exports/2, assert_exports/3,
          exports_with_arity/3, assert_exports_with_arity/3,
          assert_exports_with_arity/4]).
 
@@ -18,6 +19,16 @@ is_module(Atom) ->
         error:_ ->
             false
     end.
+
+-spec assert_is_module(Atom :: atom()) -> boolean().
+
+assert_is_module(Atom) ->
+    teal:assert(true, is_module(Atom), not_a_module).
+
+-spec assert_is_module(Atom :: atom(), Msg :: atom()) -> boolean().
+
+assert_is_module(Atom, Msg) ->
+    teal:assert(true, is_module(Atom), Msg).
 
 -spec exports(Module :: atom(), Function :: atom()) ->
     boolean().
