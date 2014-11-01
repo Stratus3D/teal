@@ -14,6 +14,8 @@
 
 %% Test cases
 -export([test_is_module_1/1,
+         test_assert_is_module_1/1,
+         test_assert_is_module_2/1,
          test_exports_2/1,
          test_assert_exports_2/1,
          test_assert_exports_3/1,
@@ -28,7 +30,7 @@
 %%%===================================================================
 
 all() ->
-    [test_is_module_1,
+    [test_is_module_1, test_assert_is_module_1, test_assert_is_module_2,
      test_exports_2, test_assert_exports_2, test_assert_exports_3,
      test_exports_with_arity_3, test_assert_exports_with_arity_3,
      test_assert_exports_with_arity_4].
@@ -71,6 +73,32 @@ test_is_module_1(_Config) ->
 
     % Should return false when no module name matches the atom passed in
     false = teal_modules:is_module(abc).
+
+test_assert_is_module_1(_Config) ->
+    % Should return true when the atom is a valid module
+    true = teal_modules:assert_is_module(erlang),
+
+    % Should raise an error when no module name matches the atom passed in
+    try teal_modules:assert_is_module(abc) of
+        _ -> erlang:error(failed)
+    catch
+        error:not_a_module ->
+            true
+    end.
+
+test_assert_is_module_2(_Config) ->
+    Msg = test,
+
+    % Should return true when the atom is a valid module
+    true = teal_modules:assert_is_module(erlang, Msg),
+
+    % Should raise an error when no module name matches the atom passed in
+    try teal_modules:assert_is_module(abc, Msg) of
+        _ -> erlang:error(failed)
+    catch
+        error:Msg ->
+            true
+    end.
 
 test_exports_2(_Config) ->
     % Should return true when the module exports a function with the given name
