@@ -1,12 +1,23 @@
 -module(teal_modules).
 
--export([exports/2, assert_exports/2, assert_exports/3,
+-export([is_module/1, exports/2, assert_exports/2, assert_exports/3,
          exports_with_arity/3, assert_exports_with_arity/3,
          assert_exports_with_arity/4]).
 
 %%%===================================================================
 %%% API
 %%%===================================================================
+
+-spec is_module(Atom :: atom()) -> boolean().
+
+is_module(Atom) ->
+    try Atom:module_info() of
+        _ ->
+            true
+    catch
+        error:_ ->
+            false
+    end.
 
 -spec exports(Module :: atom(), Function :: atom()) ->
     boolean().
