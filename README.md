@@ -42,6 +42,13 @@ All the teal modules should now be able in your tests.
         teal:lists([1,2,3,4], [5]). %=> false
 
 ####teal_modules
+* `is_module/1` - Args: `ModuleName :: atom()`
+
+   Checks if `ModuleName` is the name of an Erlang module.
+
+        teal_modules:is_module(erlang). %=> true
+        teal_modules:is_module(abc). %=> false
+
 * `exports/2` - Args: `Module :: atom(), Function :: atom()`
 
    Check if `Module` exports a function with a name that matches `Function`.
@@ -92,7 +99,6 @@ Create the following assertions:
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
-  * `teal_modules:is_module/1` Args: `ModuleName :: atom()` Checks if ModuleName is the name of an Erlang module
   * `teal_process:is_registered/1` Args: `Process :: pid() | atom()`
   * `teal_process:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
   * `teal_process:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
