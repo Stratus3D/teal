@@ -56,4 +56,9 @@ end_per_testcase(_TestCase, _Config) ->
 %%%===================================================================
 
 test_not_record(_Config) ->
-    ok.
+    % Should return false when the term looks like a record
+    false = teal_types:not_record({foo, bar}),
+
+    % Should return true when the term cannot be a record
+    true = teal_types:not_record({[], a}),
+    true = teal_types:not_record(not_a_record).
