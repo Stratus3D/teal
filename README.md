@@ -94,8 +94,8 @@ Create the following assertions:
   * `teal:exit/2`
   * `teal:throw/2`
   * `teal:could_be_record/1`
-  * `teal:not_record/1`
-  * `teal:not_of_type/2` Args: `Term :: any(), Type :: atom()` Checks if `Term` is not of type `Type`.
+  * `teal_types:not_record/1`
+  * `teal_types:not_of_type/2` Args: `Term :: any(), Type :: atom()` Checks if `Term` is not of type `Type`.
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
