@@ -1,10 +1,26 @@
 -module(teal_types).
 
--export([not_record/1, assert_not_record/1, assert_not_record/2]).
+-export([not_of_type/2,
+         not_record/1, assert_not_record/1, assert_not_record/2]).
 
 %%%===================================================================
 %%% API
 %%%===================================================================
+
+-spec not_of_type(Term :: atom(), Type :: atom()) -> atom().
+
+not_of_type(Term, Type) ->
+    %% Check for special cases
+    case Type of
+        builtin ->
+            not_implemented;
+        record ->
+            not_implemented;
+        _ ->
+            FunName = list_to_atom("is_" ++ atom_to_list(Type)),
+            invert_boolean(apply(erlang, FunName, [Term]))
+    end.
+
 
 -spec not_record(Term :: any()) -> boolean().
 
@@ -35,3 +51,13 @@ assert_not_record(Term, Msg) ->
 %%%===================================================================
 %%% Private functions
 %%%===================================================================
+
+-spec invert_boolean(Boolean :: boolean()) -> boolean().
+
+invert_boolean(Boolean) ->
+    case Boolean of
+        true ->
+            false;
+        false ->
+            true
+    end.

@@ -13,8 +13,9 @@
          end_per_testcase/2]).
 
 %% Test cases
--export([test_not_record/1, test_assert_not_record_1/1,
-         test_assert_is_module_2/1]).
+-export([test_not_of_type/1,
+         test_not_record/1, test_assert_not_record_1/1,
+         test_assert_not_record_2/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -23,7 +24,8 @@
 %%%===================================================================
 
 all() ->
-    [test_not_record, test_assert_not_record_1, test_assert_is_module_2].
+    [test_not_of_type,
+     test_not_record, test_assert_not_record_1, test_assert_not_record_2].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -56,6 +58,25 @@ end_per_testcase(_TestCase, _Config) ->
 %%% Test cases
 %%%===================================================================
 
+test_not_of_type(_Config) ->
+    % Should return false when the types match
+    false = teal_types:not_of_type(a, atom),
+    false = teal_types:not_of_type(<<"test">>, binary),
+    false = teal_types:not_of_type(<<"test">>, bitstring),
+    false = teal_types:not_of_type(true, boolean),
+    false = teal_types:not_of_type(1.0, float),
+    false = teal_types:not_of_type(fun() -> ok end, function),
+    false = teal_types:not_of_type(1, integer),
+    false = teal_types:not_of_type([], list),
+    false = teal_types:not_of_type(1, number),
+    false = teal_types:not_of_type(self(), pid),
+    false = teal_types:not_of_type({}, tuple),
+    %false = teal_types:not_of_type(port, port),
+    %false = teal_types:not_of_type(reference, reference),
+
+    % Should return true when types are different
+    true = teal_types:not_of_type(a, binary).
+
 test_not_record(_Config) ->
     % Should return false when the term looks like a record
     false = teal_types:not_record({foo, bar}),
@@ -77,7 +98,7 @@ test_assert_not_record_1(_Config) ->
             true
     end.
 
-test_assert_is_module_2(_Config) ->
+test_assert_not_record_2(_Config) ->
     Msg = test,
 
     % Should return true when the term cannot be a record
