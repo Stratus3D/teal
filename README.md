@@ -42,6 +42,14 @@ All the teal modules should now be able in your tests.
         teal:lists([1,2,3,4], [5]). %=> false
 
 ####teal_types
+* `not_of_type/2` - Args: `Term :: any(), Type :: atom()`
+
+   Checks if `Term` is not of type `Type`
+
+        teal_types:not_of_type(a, atom). %=> false
+        teal_types:not_of_type(<<"test">>, binary). %=> false
+        teal_types:not_of_type(a, binary). %=> true
+
 * `not_record/1` - Args: `Term :: any()`
 
    Checks if `Term` could be a record. If the term is a tuple with an atom as the first value `Term` is assumed to be a record and the function returns false. Otherwise it returns true.
@@ -103,7 +111,6 @@ Create the following assertions:
   * `teal:exit/2`
   * `teal:throw/2`
   * `teal:could_be_record/1`
-  * `teal_types:not_of_type/2` Args: `Term :: any(), Type :: atom()` Checks if `Term` is not of type `Type`.
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
