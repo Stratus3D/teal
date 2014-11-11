@@ -117,6 +117,8 @@ Create the following assertions:
   * `teal_process:is_registered/1` Args: `Process :: pid() | atom()`
   * `teal_process:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
   * `teal_process:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
+  * `teal_process:get_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
+  * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
 
 ## Known Issues
