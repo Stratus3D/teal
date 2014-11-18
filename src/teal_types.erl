@@ -1,7 +1,8 @@
 -module(teal_types).
 
 -export([not_of_type/2,
-         not_record/1, assert_not_record/1, assert_not_record/2]).
+         not_record/1, assert_not_record/1, assert_not_record/2,
+         could_be_record/1]).
 
 %%%===================================================================
 %%% API
@@ -47,6 +48,20 @@ assert_not_record(Term) ->
 
 assert_not_record(Term, Msg) ->
     teal:assert(true, not_record(Term), Msg).
+
+
+-spec could_be_record(Record :: any()) -> boolean().
+
+could_be_record(Record) ->
+    % Check if term is a tuple with an atom as the first item
+    case is_tuple(Record) of
+        true ->
+            % Check if the first item is an atom
+            First = erlang:element(1, Record),
+            is_atom(First);
+        false ->
+            false
+    end.
 
 %%%===================================================================
 %%% Private functions
