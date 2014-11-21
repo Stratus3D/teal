@@ -110,14 +110,14 @@ Create the following assertions:
   * `teal:error/2`
   * `teal:exit/2`
   * `teal:throw/2`
-  * `teal:could_be_record/1`
+  * `teal_types:could_be_record/1`
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
-  * `teal_process:is_registered/1` Args: `Process :: pid() | atom()`
-  * `teal_process:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
-  * `teal_process:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
-  * `teal_process:get_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
+  * `teal_processes:is_registered/1` Args: `Process :: pid() | atom()`
+  * `teal_processes:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
+  * `teal_processes:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
+  * `teal_processes:get_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
   * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
 
