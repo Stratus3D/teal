@@ -121,6 +121,10 @@ Create the following assertions:
   * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
 
+## Similar Tools
+
+* [https://github.com/hyperthunk/hamcrest-erlang](https://github.com/hyperthunk/hamcrest-erlang)
+
 ## Known Issues
 No known issues. If you see something that could be improved feel free to open an issue on GitHub ([https://github.com/Stratus3D/teal/issues](https://github.com/Stratus3D/teal/issues))
 
