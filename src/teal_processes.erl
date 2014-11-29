@@ -1,6 +1,7 @@
 -module(teal_processes).
 
--export([is_registered/1, assert_is_registered/1, assert_is_registered/2]).
+-export([is_registered/1, assert_is_registered/1, assert_is_registered/2,
+        is_registered_with_name/2]).
 
 %%%===================================================================
 %%% API
@@ -33,6 +34,16 @@ assert_is_registered(Process) ->
 
 assert_is_registered(Process, Msg) ->
     teal:assert(true, is_registered(Process), Msg).
+
+-spec is_registered_with_name(Process :: pid(), Name :: atom()) -> boolean().
+
+is_registered_with_name(Process, Name) when is_pid(Process), is_atom(Name) ->
+    case erlang:process_info(Process, [registered_name]) of
+      [{registered_name, []}] ->
+            false;
+      [{registered_name, RegisteredName}] ->
+            RegisteredName == Name
+    end.
 
 %%%===================================================================
 %%% Private functions
