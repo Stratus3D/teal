@@ -14,7 +14,8 @@
 
 %% Test cases
 -export([
-         test_is_registered/1]).
+         test_is_registered/1, test_assert_is_registered_1/1,
+    test_assert_is_registered_2/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -23,7 +24,8 @@
 %%%===================================================================
 
 all() ->
-    [test_is_registered].
+    [test_is_registered, test_assert_is_registered_1,
+     test_assert_is_registered_2].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -68,3 +70,34 @@ test_is_registered(_Config) ->
     % Should also handle atoms
     true = teal_processes:is_registered(RegisteredAtom),
     false = teal_processes:is_registered(me).
+
+test_assert_is_registered_1(_Config) ->
+    [RegisteredAtom|_] = registered(),
+    Registered = whereis(RegisteredAtom),
+
+    % Should return true if the process is registered
+    true = teal_processes:assert_is_registered(Registered),
+
+    % Should raise an error if the process is not registered
+    try teal_processes:assert_is_registered(me) of
+        _ -> erlang:error(failed)
+    catch
+        error:not_registered ->
+            true
+    end.
+
+test_assert_is_registered_2(_Config) ->
+    [RegisteredAtom|_] = registered(),
+    Registered = whereis(RegisteredAtom),
+    Msg = failed,
+
+    % Should return true if the process is registered
+    true = teal_processes:assert_is_registered(Registered, Msg),
+
+    % Should raise an error with a custom error message if not registered
+    try teal_processes:assert_is_registered(me, Msg) of
+        _ -> erlang:error(failed)
+    catch
+        error:failed ->
+            true
+    end.
