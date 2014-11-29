@@ -13,8 +13,8 @@
          end_per_testcase/2]).
 
 %% Test cases
--export([my_test_case/0,
-         my_test_case/1]).
+-export([
+         test_is_registered/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -23,7 +23,7 @@
 %%%===================================================================
 
 all() ->
-    [my_test_case].
+    [test_is_registered].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -56,8 +56,15 @@ end_per_testcase(_TestCase, _Config) ->
 %%% Test cases
 %%%===================================================================
 
-my_test_case() ->
-    [].
+test_is_registered(_Config) ->
+    [RegisteredAtom|_] = registered(),
+    Registered = whereis(RegisteredAtom),
 
-my_test_case(_Config) ->
-    ok.
+    % Should return true if the process is registered
+    true = teal_processes:is_registered(Registered),
+    % Should return false if the process is not registered
+    false = teal_processes:is_registered(self()),
+
+    % Should also handle atoms
+    true = teal_processes:is_registered(RegisteredAtom),
+    false = teal_processes:is_registered(me).
