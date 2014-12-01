@@ -23,7 +23,7 @@ is_flat(List) ->
 assert_is_flat(List) ->
     teal:assert(true, is_flat(List), contains_sublists).
 
--spec assert_is_flat(List :: list(), Msg :: iolist()) -> true.
+-spec assert_is_flat(List :: list(), Msg :: any()) -> true.
 
 assert_is_flat(List, Msg) ->
     teal:assert(true, is_flat(List), Msg).
