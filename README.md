@@ -122,6 +122,7 @@ Create the following assertions:
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
+  * `teal_lists:same_members/2` Args: `List1 :: list(), List2 :: list()` Checks if all members in `List1` are present in `List2` and no extra members are present in `List2`.
   * `teal_processes:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
   * `teal_processes:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
   * `teal_processes:get_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
