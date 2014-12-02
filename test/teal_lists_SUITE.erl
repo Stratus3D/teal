@@ -14,6 +14,7 @@
 
 %% Test cases
 -export([test_is_flat/1, test_assert_is_flat/1, test_assert_is_flat_2/1,
+         test_same_members/1,
          test_includes_members/1, test_assert_includes_members/1, test_assert_includes_members_3/1,
          test_include/1,
          test_assert_include/1]).
@@ -26,6 +27,7 @@
 
 all() ->
     [test_is_flat, test_assert_is_flat, test_assert_is_flat,
+     test_same_members,
      test_includes_members, test_assert_includes_members, test_assert_includes_members_3,
      test_include, test_assert_include].
 
@@ -91,6 +93,17 @@ test_assert_is_flat_2(_Config) ->
         error:Error ->
             true
     end.
+
+test_same_members(_Config) ->
+    ListA = [1,2,3,4],
+    ListB = [2,3,4,1],
+    ListC = [1,2,3,3],
+
+    % Should return true when all items are in the list
+    true = teal_lists:same_members(ListA, ListB),
+
+    % Should return false when a item is not in the list
+    false = teal_lists:same_members(ListA, ListC).
 
 test_includes_members(_Config) ->
     List = [a,b,c,d,e,f],
