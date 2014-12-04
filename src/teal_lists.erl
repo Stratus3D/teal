@@ -31,8 +31,20 @@ assert_is_flat(List, Msg) ->
 
 -spec same_members(List1 :: list(), List2 :: list()) -> true.
 
-same_members(List1, List2) ->
-    true.
+same_members([], []) ->
+    true;
+
+same_members([Elem|List1], List2) ->
+    case lists:member(Elem, List2) of
+        true ->
+            same_members(List1, lists:delete(Elem, List2));
+        false ->
+            false
+    end;
+
+same_members(_, _) ->
+    false.
+
 
 assert_same_members(List1, List2) ->
     true.
