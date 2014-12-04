@@ -38,8 +38,15 @@ All the teal modules should now be able in your tests.
 
    Checks if all members of the `Members` list are present in the `List` list. Examples:
 
-        teal:lists([1,2,3,4], [2,4]). %=> true
-        teal:lists([1,2,3,4], [5]). %=> false
+        teal_lists:includes_members([1,2,3,4], [2,4]). %=> true
+        teal_lists:includes_members([1,2,3,4], [5]). %=> false
+
+* `teal_lists:same_members/2` - Args: `List1 :: list(), List2 :: list()`
+
+   Similar to `includes_members/2`. Checks if all members in `List1` are present in `List2` and no extra members are present in `List2`. The only thing this does different than the `=` comparison is ignore the ordering of the items in the lists.
+
+        teal_lists:same_members([1,2,3,4], [4,2,3,1]). %=> true
+        teal_lists:same_members([1,2,3,4], [2,4]). %=> false
 
 ####teal_types
 * `not_of_type/2` - Args: `Term :: any(), Type :: atom()`
@@ -122,7 +129,6 @@ Create the following assertions:
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
-  * `teal_lists:same_members/2` Args: `List1 :: list(), List2 :: list()` Checks if all members in `List1` are present in `List2` and no extra members are present in `List2`.
   * `teal_processes:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
   * `teal_processes:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
   * `teal_processes:get_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
