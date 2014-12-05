@@ -45,12 +45,16 @@ same_members([Elem|List1], List2) ->
 same_members(_, _) ->
     false.
 
+-spec assert_same_members(List1 :: list(), List2 :: list()) -> boolean().
 
 assert_same_members(List1, List2) ->
-    true.
+    teal:assert(true, same_members(List1, List2), not_same_members).
 
-assert_same_members(List1, List2, _Msg) ->
-    true.
+-spec assert_same_members(List1 :: list(), List2 :: list(), Msg :: any()) ->
+    boolean().
+
+assert_same_members(List1, List2, Msg) ->
+    teal:assert(true, same_members(List1, List2), Msg).
 
 -spec includes_members(List :: list(), Members :: list()) -> boolean().
 
