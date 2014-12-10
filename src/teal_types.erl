@@ -2,7 +2,8 @@
 
 -export([not_of_type/2,
          not_record/1, assert_not_record/1, assert_not_record/2,
-         could_be_record/1]).
+         could_be_record/1, assert_could_be_record/1, assert_could_be_record/2
+        ]).
 
 %%%===================================================================
 %%% API
@@ -63,6 +64,15 @@ could_be_record(Record) ->
             false
     end.
 
+-spec assert_could_be_record(Record :: any()) -> boolean().
+
+assert_could_be_record(Record) ->
+    teal:assert(true, could_be_record(Record), not_record).
+
+-spec assert_could_be_record(Record :: any(), Msg :: any()) -> boolean().
+
+assert_could_be_record(Record, Msg) ->
+    teal:assert(true, could_be_record(Record), Msg).
 %%%===================================================================
 %%% Private functions
 %%%===================================================================
