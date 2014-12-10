@@ -15,7 +15,10 @@
 %% Test cases
 -export([test_not_of_type/1,
          test_not_record/1, test_assert_not_record_1/1,
-         test_assert_not_record_2/1]).
+         test_assert_not_record_2/1,
+         test_could_be_record/1, test_assert_could_be_record_1/1,
+         test_assert_could_be_record_2/1]).
+
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -25,7 +28,10 @@
 
 all() ->
     [test_not_of_type,
-     test_not_record, test_assert_not_record_1, test_assert_not_record_2].
+     test_not_record, test_assert_not_record_1, test_assert_not_record_2,
+     test_could_be_record, test_assert_could_be_record_1,
+     test_assert_could_be_record_2
+    ].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -113,3 +119,48 @@ test_assert_not_record_2(_Config) ->
             true
     end.
 
+test_could_be_record(_Config) ->
+    % Should return true when a term looks like a record
+    true = teal_types:could_be_record({foo, bar}),
+
+    % Should return false when the term cannot be a record
+    false = teal_types:could_be_record({[], a}),
+    false = teal_types:could_be_record(not_a_record).
+
+test_assert_could_be_record_1(_Config) ->
+    % Should return true when a term looks like a record
+    true = teal_types:assert_could_be_record({foo, bar}),
+
+    % Should raise an error when the term cannot be a record
+    try teal_types:assert_could_be_record({[], a}) of
+        _ -> erlang:error(failed)
+    catch
+        error:not_record ->
+            true
+    end,
+    try teal_types:assert_could_be_record(not_a_record) of
+        _ -> erlang:error(failed)
+    catch
+        error:not_record ->
+            true
+    end.
+
+test_assert_could_be_record_2(_Config) ->
+    Msg = test,
+
+    % Should return true when a term looks like a record
+    true = teal_types:assert_could_be_record({foo, bar}),
+
+    % Should raise an error when the term cannot be a record
+    try teal_types:assert_could_be_record({[], a}, Msg) of
+        _ -> erlang:error(failed)
+    catch
+        error:Msg ->
+            true
+    end,
+    try teal_types:assert_could_be_record(not_a_record, Msg) of
+        _ -> erlang:error(failed)
+    catch
+        error:Msg ->
+            true
+    end.
