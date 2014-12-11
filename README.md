@@ -65,6 +65,15 @@ All the teal modules should now be able in your tests.
         teal_types:not_record({[], a}). %=> true
         teal_types:not_record(not_a_record). %=> true
 
+* `could_be_record/1` - Args: `Term :: any()`
+
+   Checks if `Term` could be a record. If the term is a tuple with an atom as the first value in `Term` tuple then the term could be a record and the function returns true. Otherwise it returns false. Opposite of `teal_types:not_record/1`.
+
+        teal_types:could_be_record({foo, bar}). %=> true
+        teal_types:could_be_record({[], a}). %=> false
+        teal_types:could_be_record(not_a_record). %=> false
+
+
 ####teal_modules
 * `is_module/1` - Args: `ModuleName :: atom()`
 
@@ -125,7 +134,6 @@ Create the following assertions:
   * `teal:error/2`
   * `teal:exit/2`
   * `teal:throw/2`
-  * `teal_types:could_be_record/1`
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
