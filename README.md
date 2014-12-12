@@ -104,6 +104,16 @@ All the teal modules should now be able in your tests.
        teal_processes:is_registered(RegisteredPidOrAtom). %=> true
        teal_processes:is_registered(UnregisteredPidOrAtom). %=> false
 
+* `is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
+
+    Checks if `Process` is registered with `Name`. Similar to `teal_processes:is_registered/1`.
+
+       RegisteredPidOrAtom = <0.43.0>,
+       UnregisteredName = <0.112.0>,
+       register(RegisteredName, RegisteredPidOrAtom),
+       teal_processes:is_registered_with_name(RegisteredPidOrAtom, RegisteredName). %=> true
+       teal_processes:is_registered_with_name(UnregisteredPidOrAtom, UnregisteredName). %=> false
+
 ####teal_behaviours
 * `has_callback/3` - Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
 
@@ -137,7 +147,6 @@ Create the following assertions:
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
-  * `teal_processes:is_registered_with_name/2` Args: `Process :: pid(), Name :: atom()`
   * `teal_processes:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
   * `teal_processes:get_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
   * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
