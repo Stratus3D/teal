@@ -2,7 +2,7 @@
 
 -export([is_registered/1, assert_is_registered/1, assert_is_registered/2,
         is_registered_with_name/2, assert_is_registered_with_name/2,
-         assert_is_registered_with_name/3]).
+         assert_is_registered_with_name/3, get_state/1]).
 
 %%%===================================================================
 %%% API
@@ -57,6 +57,14 @@ assert_is_registered_with_name(Process, Name) ->
 
 assert_is_registered_with_name(Process, Name, Msg) ->
     teal:assert(true, is_registered_with_name(Process, Name), Msg).
+
+
+-spec get_state(Process :: pid() | atom()) -> any().
+
+get_state(Process) when is_atom(Process) ->
+    get_state(whereis(Process));
+get_state(Process) when is_pid(Process) ->
+    sys:get_state(Process).
 
 %%%===================================================================
 %%% Private functions
