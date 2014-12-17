@@ -2,7 +2,9 @@
 
 -export([is_registered/1, assert_is_registered/1, assert_is_registered/2,
         is_registered_with_name/2, assert_is_registered_with_name/2,
-         assert_is_registered_with_name/3, get_state/1]).
+         assert_is_registered_with_name/3, get_state/1,
+         %get_gen_server_state/1,
+         should_receive/2]).
 
 %%%===================================================================
 %%% API
@@ -65,6 +67,22 @@ get_state(Process) when is_atom(Process) ->
     get_state(whereis(Process));
 get_state(Process) when is_pid(Process) ->
     sys:get_state(Process).
+
+
+%-spec get_gen_server_state(Process :: pid() | atom()) -> any().
+%
+%get_gen_server_state(_Process) ->
+%    [].
+
+-spec should_receive(Message :: any(), Timeout :: integer()) -> boolean().
+
+should_receive(Message, Timeout) ->
+    receive
+        Message ->
+            true
+    after Timeout ->
+            false
+    end.
 
 %%%===================================================================
 %%% Private functions
