@@ -4,7 +4,7 @@
         is_registered_with_name/2, assert_is_registered_with_name/2,
          assert_is_registered_with_name/3, get_state/1,
          %get_gen_server_state/1,
-         should_receive/2]).
+         should_receive/2, assert_should_receive/2]).
 
 %%%===================================================================
 %%% API
@@ -83,6 +83,12 @@ should_receive(Message, Timeout) ->
     after Timeout ->
             false
     end.
+
+-spec assert_should_receive(Message :: any(), Timeout :: integer()) ->
+    boolean().
+
+assert_should_receive(Message, Timeout) ->
+    teal:assert(true, should_receive(Message, Timeout), message_not_received).
 
 %%%===================================================================
 %%% Private functions
