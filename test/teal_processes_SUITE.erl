@@ -15,7 +15,8 @@
 %% Test cases
 -export([
          test_is_registered/1, test_assert_is_registered_1/1,
-    test_assert_is_registered_2/1]).
+    test_assert_is_registered_2/1,
+    test_get_state/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -25,7 +26,8 @@
 
 all() ->
     [test_is_registered, test_assert_is_registered_1,
-     test_assert_is_registered_2].
+     test_assert_is_registered_2,
+     test_get_state].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -101,3 +103,15 @@ test_assert_is_registered_2(_Config) ->
         error:failed ->
             true
     end.
+
+test_get_state(_Config) ->
+    % Should take a pid and return process state
+    % We are assuming the sample_gen_server is available
+    Name = sample_gen_server,
+    Name:start_link(),
+    GenServerPid = whereis(Name),
+    ExpectedState = {state},
+    ExpectedState = teal_processes:get_state(GenServerPid),
+
+    % Should take a atom and return registered processes state
+    ExpectedState = teal_processes:get_state(Name).
