@@ -16,7 +16,8 @@
 -export([
          test_is_registered/1, test_assert_is_registered_1/1,
     test_assert_is_registered_2/1,
-    test_get_state/1]).
+    test_get_state/1,
+    test_should_receive/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -27,7 +28,7 @@
 all() ->
     [test_is_registered, test_assert_is_registered_1,
      test_assert_is_registered_2,
-     test_get_state].
+     test_get_state, test_should_receive].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -115,3 +116,20 @@ test_get_state(_Config) ->
 
     % Should take a atom and return registered processes state
     ExpectedState = teal_processes:get_state(Name).
+
+test_should_receive(_Config) ->
+    Msg = test,
+    WrongMsg = invalid_test,
+    Timeout = 1000,
+    Pid = self(),
+
+    % Should return true when a matching message is received before timeout
+    spawn_link(fun() -> Pid ! Msg end),
+    true = teal_processes:should_receive(Msg, Timeout),
+
+    % Should return false when a matching message is not received
+    false = teal_processes:should_receive(Msg, Timeout),
+
+    % Should return false when an incorrect message is received
+    spawn_link(fun() -> Pid ! WrongMsg end),
+    false = teal_processes:should_receive(Msg, Timeout).
