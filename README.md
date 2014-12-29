@@ -154,7 +154,7 @@ Create the following assertions:
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
   * `teal_processes:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
-  * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the state of the `Process`.
+  * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the custom state of the `Process`.
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
 
 ## Similar Tools
