@@ -17,7 +17,7 @@
          test_is_registered/1, test_assert_is_registered_1/1,
     test_assert_is_registered_2/1,
     test_get_state/1,
-    test_should_receive/1]).
+    test_receive_message/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -117,7 +117,7 @@ test_get_state(_Config) ->
     % Should take a atom and return registered processes state
     ExpectedState = teal_processes:get_state(Name).
 
-test_should_receive(_Config) ->
+test_receive_message(_Config) ->
     Msg = test,
     WrongMsg = invalid_test,
     Timeout = 1000,
