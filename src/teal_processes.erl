@@ -4,7 +4,7 @@
         is_registered_with_name/2, assert_is_registered_with_name/2,
          assert_is_registered_with_name/3, get_state/1,
          %get_gen_server_state/1,
-         should_receive/2, assert_should_receive/2, assert_should_receive/3]).
+         receive_message/2, assert_receive_message/2, assert_receive_message/3]).
 
 %%%===================================================================
 %%% API
@@ -74,9 +74,9 @@ get_state(Process) when is_pid(Process) ->
 %get_gen_server_state(_Process) ->
 %    [].
 
--spec should_receive(Message :: any(), Timeout :: integer()) -> boolean().
+-spec receive_message(Message :: any(), Timeout :: integer()) -> boolean().
 
-should_receive(Message, Timeout) ->
+receive_message(Message, Timeout) ->
     receive
         Message ->
             true
@@ -84,17 +84,17 @@ should_receive(Message, Timeout) ->
             false
     end.
 
--spec assert_should_receive(Message :: any(), Timeout :: integer()) ->
+-spec assert_receive_message(Message :: any(), Timeout :: integer()) ->
     boolean().
 
-assert_should_receive(Message, Timeout) ->
-    teal:assert(true, should_receive(Message, Timeout), message_not_received).
+assert_receive_message(Message, Timeout) ->
+    teal:assert(true, receive_message(Message, Timeout), message_not_received).
 
--spec assert_should_receive(Message :: any(), Timeout :: integer(),
+-spec assert_receive_message(Message :: any(), Timeout :: integer(),
                             Msg :: any()) -> boolean().
 
-assert_should_receive(Message, Timeout, Msg) ->
-    teal:assert(true, should_receive(Message, Timeout), Msg).
+assert_receive_message(Message, Timeout, Msg) ->
+    teal:assert(true, receive_message(Message, Timeout), Msg).
 %%%===================================================================
 %%% Private functions
 %%%===================================================================
