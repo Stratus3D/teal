@@ -17,7 +17,7 @@
          test_is_registered/1, test_assert_is_registered_1/1,
     test_assert_is_registered_2/1,
     test_get_state/1,
-    test_receive_message/1]).
+    test_receive_message/1, test_assert_receive_message/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -28,7 +28,8 @@
 all() ->
     [test_is_registered, test_assert_is_registered_1,
      test_assert_is_registered_2,
-     test_get_state, test_should_receive].
+     test_get_state,
+     test_receive_message, test_assert_receive_message].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -125,11 +126,38 @@ test_receive_message(_Config) ->
 
     % Should return true when a matching message is received before timeout
     spawn_link(fun() -> Pid ! Msg end),
-    true = teal_processes:should_receive(Msg, Timeout),
+    true = teal_processes:receive_message(Msg, Timeout),
 
     % Should return false when a matching message is not received
-    false = teal_processes:should_receive(Msg, Timeout),
+    false = teal_processes:receive_message(Msg, Timeout),
 
     % Should return false when an incorrect message is received
     spawn_link(fun() -> Pid ! WrongMsg end),
-    false = teal_processes:should_receive(Msg, Timeout).
+    false = teal_processes:receive_message(Msg, Timeout).
+
+test_assert_receive_message(_Config) ->
+    Msg = test,
+    WrongMsg = invalid_test,
+    Timeout = 1000,
+    Pid = self(),
+
+    % Should return true when a matching message is received before timeout
+    spawn_link(fun() -> Pid ! Msg end),
+    true = teal_processes:assert_receive_message(Msg, Timeout),
+
+    % Should raise an exception when a matching message is not received
+    try teal_processes:assert_receive_message(Msg, Timeout) of
+        _ -> erlang:error(failed)
+    catch
+        error:message_not_received ->
+            true
+    end,
+
+    % Should raise an exception when an incorrect message is received
+    spawn_link(fun() -> Pid ! WrongMsg end),
+    try teal_processes:assert_receive_message(Msg, Timeout) of
+        _ -> erlang:error(failed)
+    catch
+        error:message_not_received ->
+            true
+    end.
