@@ -120,6 +120,15 @@ All the teal modules should now be able in your tests.
 
        teal_processes:get_state(RegisteredPidOrAtom). %=> returns RegisteredPidOrAtom processes' state.
 
+* `receive_message/2` - Args: `Message :: term(), Timeout :: integer()`
+
+    Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error.
+
+       Msg = test,
+       function_that_sends_msg_to_self(Msg),
+       teal_processes:receive_message(Msg, 500), %=> true
+       teal_processes:receive_message(Msg, 500), %=> false
+
 ####teal_behaviours
 * `has_callback/3` - Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
 
@@ -153,7 +162,6 @@ Create the following assertions:
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
-  * `teal_processes:should_receive/2` Args: `Message :: term(), Timeout :: integer()` Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error
   * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the custom state of the `Process`.
   * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
 
