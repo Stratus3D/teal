@@ -6,6 +6,9 @@
 %%% API
 %%%===================================================================
 
+-spec close_to(Received :: number(), Expected :: number(),
+               Delta :: number()) -> boolean().
+
 close_to(Received, Expected, Delta) ->
     Min = Expected - Delta,
     Max = Expected + Delta,
@@ -17,8 +20,14 @@ close_to(Received, Expected, Delta) ->
             false
     end.
 
+-spec assert_close_to(Received :: number(), Expected :: number(),
+                      Delta :: number()) -> boolean().
+
 assert_close_to(Received, Expected, Delta) ->
     teal:assert(true, close_to(Received, Expected, Delta), not_in_range).
+
+-spec assert_close_to(Received :: number(), Expected :: number(),
+                      Delta :: number(), Msg :: any()) -> boolean().
 
 assert_close_to(Received, Expected, Delta, Msg) ->
     teal:assert(true, close_to(Received, Expected, Delta), Msg).
