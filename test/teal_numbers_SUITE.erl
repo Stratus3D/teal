@@ -14,7 +14,7 @@
 
 %% Test cases
 -export([test_close_to/1,
-        test_assert_close_to_2/1]).
+        test_assert_close_to_2/1, test_assert_close_to_3/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -23,8 +23,7 @@
 %%%===================================================================
 
 all() ->
-    [test_close_to,
-    test_assert_close_to_2].
+    [test_close_to, test_assert_close_to_2, test_assert_close_to_3].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -80,6 +79,24 @@ test_assert_close_to_2(_Config) ->
     % Should raise an error when the input number is outside of the range
     AnotherTarget = 10,
     try teal_numbers:assert_close_to(Input, AnotherTarget, Delta) of
+        _ -> erlang:error(failed)
+    catch
+        error:not_in_range ->
+            true
+    end.
+
+test_assert_close_to_3(_Config) ->
+    Delta = 2,
+    Target = 2,
+    Input = 1,
+    Msg = test,
+
+    % Should return true when the input number is inside the range
+    true = teal_numbers:assert_close_to(Input, Target, Delta, Msg),
+
+    % Should raise an error when the input number is outside of the range
+    AnotherTarget = 10,
+    try teal_numbers:assert_close_to(Input, AnotherTarget, Delta, Msg) of
         _ -> erlang:error(failed)
     catch
         error:not_in_range ->
