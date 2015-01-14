@@ -151,6 +151,14 @@ All the teal modules should now be able in your tests.
        teal_behaviours:implements_behaviour(supervisor, gen_server). %=> true
        teal_behaviours:implements_behaviour(erlang, gen_server). %=> false
 
+####teal_numbers
+
+* `close_to/3` - Args: `Received :: float(), Value :: float(), Delta :: float()`
+
+    Checks if `Received` is within `Delta` of `Value`. If it is the function returns true. Otherwise it returns false.
+
+       teal_numbers:close_to(7, 10, 5). %=> true
+       teal_numbers:close_to(4, 10, 5). %=> false
 
 ## TODO
 Create the following assertions:
@@ -163,7 +171,6 @@ Create the following assertions:
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
   * `teal_otp:get_gen_server_state/1` Args: `Process :: pid() | atom()` Returns the custom state of the `Process`.
-  * `teal_numbers:close_to/3` Args: `Received :: float(), Value :: float(), Delta :: float()`
 
 ## Similar Tools
 
