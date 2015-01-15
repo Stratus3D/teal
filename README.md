@@ -163,10 +163,10 @@ All the teal modules should now be able in your tests.
 ## TODO
 Create the following assertions:
 
-  * `teal:exception/3`
-  * `teal:error/2`
-  * `teal:exit/2`
-  * `teal:throw/2`
+  * `teal:exception/3` Args: `Fun :: fun()`
+  * `teal:error/2` Args: `Fun :: fun()`
+  * `teal:exit/2` Args: `Fun :: fun()`
+  * `teal:throw/2` Args: `Fun :: fun()`
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
