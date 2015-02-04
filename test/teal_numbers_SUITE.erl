@@ -99,6 +99,6 @@ test_assert_close_to_3(_Config) ->
     try teal_numbers:assert_close_to(Input, AnotherTarget, Delta, Msg) of
         _ -> erlang:error(failed)
     catch
-        error:not_in_range ->
+        error:Msg ->
             true
     end.
