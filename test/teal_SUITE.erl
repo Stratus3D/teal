@@ -14,7 +14,9 @@
 
 %% Test cases
 -export([test_not_equal/1, test_assert_not_equal_2/1, test_assert_not_equal_3/1,
-         test_assert/1]).
+         test_assert/1,
+         test_raises_exception/1, test_raises_throw/1, test_raises_error/1,
+         test_raises_exit/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -24,7 +26,9 @@
 
 all() ->
     [test_not_equal, test_assert_not_equal_2, test_assert_not_equal_3,
-     test_assert].
+     test_assert,
+     test_raises_exception, test_raises_throw, test_raises_error,
+     test_raises_exit].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -56,6 +60,31 @@ end_per_testcase(_TestCase, _Config) ->
 %%%===================================================================
 %%% Test cases
 %%%===================================================================
+test_assert(_Config) ->
+    % Should return true when first to arguments are equal
+    true = teal:assert(1, 1, broken),
+
+    % Should return true when first to arguments are equal tuples
+    Tuple = {a, b, c},
+    true = teal:assert(Tuple, Tuple, broken),
+
+    % Should raise error when first to arguments are not equal
+    try teal:assert(1, 2, broken) of
+        _ -> erlang:error(test_failure)
+    catch
+        error:broken ->
+            true
+    end,
+
+    % Should return true when first to arguments are equal tuples
+    Tuple = {a, b, c},
+    Tuple2 = {d, e, f},
+    try teal:assert(Tuple, Tuple2, broken) of
+        _ -> erlang:error(test_failure)
+    catch
+        error:broken ->
+            true
+    end.
 
 test_not_equal(_Config) ->
     % Should return true when terms are not equal
@@ -90,28 +119,32 @@ test_assert_not_equal_3(_Config) ->
             true
     end.
 
-test_assert(_Config) ->
-    % Should return true when first to arguments are equal
-    true = teal:assert(1, 1, broken),
+test_raises_exception(_Config) ->
+    % Should return true when the fun raises an exception
+    true = teal:raises_exception(fun() -> throw(something) end),
+    true = teal:raises_exception(fun() -> error(something) end),
+    true = teal:raises_exception(fun() -> exit(something) end),
 
-    % Should return true when first to arguments are equal tuples
-    Tuple = {a, b, c},
-    true = teal:assert(Tuple, Tuple, broken),
+    % Should return false when the fun doesn't raises an exception
+    false = teal:raises_exception(fun() -> true end).
 
-    % Should raise error when first to arguments are not equal
-    try teal:assert(1, 2, broken) of
-        _ -> erlang:error(test_failure)
-    catch
-        error:broken ->
-            true
-    end,
+test_raises_throw(_Config) ->
+    % Should return true when the fun raises a throw
+    true = teal:raises_throw(fun() -> throw(something) end),
 
-    % Should return true when first to arguments are equal tuples
-    Tuple = {a, b, c},
-    Tuple2 = {d, e, f},
-    try teal:assert(Tuple, Tuple2, broken) of
-        _ -> erlang:error(test_failure)
-    catch
-        error:broken ->
-            true
-    end.
+    % Should return false when the fun doesn't raises a throw
+    false = teal:raises_throw(fun() -> true end).
+
+test_raises_error(_Config) ->
+    % Should return true when the fun raises an error
+    true = teal:raises_error(fun() -> error(something) end),
+
+    % Should return false when the fun doesn't raises an error
+    false = teal:raises_error(fun() -> true end).
+
+test_raises_exit(_Config) ->
+    % Should return true when the fun raises an exit
+    true = teal:raises_exit(fun() -> exit(something) end),
+
+    % Should return false when the fun doesn't raises an exit
+    false = teal:raises_exit(fun() -> true end).
