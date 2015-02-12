@@ -2,7 +2,10 @@
 
 -export([assert/3,
          not_equal/2, assert_not_equal/2, assert_not_equal/3,
-         raises_throw/1, raises_exception/1, raises_error/1,
+         raises_exception/1, assert_raises_exception/1,
+         assert_raises_exception/2,
+         raises_throw/1, assert_raises_throw/1, assert_raises_throw/2,
+         raises_error/1,
          raises_exit/1
          ]).
 
@@ -42,7 +45,7 @@ assert_not_equal(Term1, Term2, Msg) ->
 
 -spec raises_exception(Fun :: fun()) -> boolean().
 
-raises_exception(Fun) ->
+raises_exception(Fun) when is_function(Fun) ->
     try Fun() of
         _ -> false
     catch
@@ -50,9 +53,19 @@ raises_exception(Fun) ->
             true
     end.
 
+-spec assert_raises_exception(Fun :: fun()) -> boolean().
+
+assert_raises_exception(Fun) ->
+    assert(true, raises_exception(Fun), no_exception_caught).
+
+-spec assert_raises_exception(Fun :: fun(), Msg :: any()) -> boolean().
+
+assert_raises_exception(Fun, Msg) ->
+    assert(true, raises_exception(Fun), Msg).
+
 -spec raises_throw(Fun :: fun()) -> boolean().
 
-raises_throw(Fun) ->
+raises_throw(Fun) when is_function(Fun) ->
     try Fun() of
         _ -> false
     catch
@@ -60,9 +73,19 @@ raises_throw(Fun) ->
             true
     end.
 
+-spec assert_raises_throw(Fun :: fun()) -> boolean().
+
+assert_raises_throw(Fun) ->
+    assert(true, raises_throw(Fun), no_exception_caught).
+
+-spec assert_raises_throw(Fun :: fun(), Msg :: any()) -> boolean().
+
+assert_raises_throw(Fun, Msg) ->
+    assert(true, raises_throw(Fun), Msg).
+
 -spec raises_error(Fun :: fun()) -> boolean().
 
-raises_error(Fun) ->
+raises_error(Fun) when is_function(Fun) ->
     try Fun() of
         _ -> false
     catch
@@ -72,7 +95,7 @@ raises_error(Fun) ->
 
 -spec raises_exit(Fun :: fun()) -> boolean().
 
-raises_exit(Fun) ->
+raises_exit(Fun) when is_function(Fun) ->
     try Fun() of
         _ -> false
     catch
