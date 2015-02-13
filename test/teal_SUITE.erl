@@ -15,7 +15,9 @@
 %% Test cases
 -export([test_not_equal/1, test_assert_not_equal_2/1, test_assert_not_equal_3/1,
          test_assert/1,
-         test_raises_exception/1, test_raises_throw/1, test_raises_error/1,
+         test_raises_exception/1, test_assert_raises_exception_1/1,
+         test_assert_raises_exception_2/1,
+         test_raises_throw/1, test_raises_error/1,
          test_raises_exit/1]).
 
 -include_lib("common_test/include/ct.hrl").
@@ -27,7 +29,9 @@
 all() ->
     [test_not_equal, test_assert_not_equal_2, test_assert_not_equal_3,
      test_assert,
-     test_raises_exception, test_raises_throw, test_raises_error,
+     test_raises_exception, test_assert_raises_exception_1,
+     test_assert_raises_exception_2,
+     test_raises_throw, test_raises_error,
      test_raises_exit].
 
 suite() ->
@@ -127,6 +131,30 @@ test_raises_exception(_Config) ->
 
     % Should return false when the fun doesn't raises an exception
     false = teal:raises_exception(fun() -> true end).
+
+test_assert_raises_exception_1(_Config) ->
+    % Should return true when the fun raises an exception
+    true = teal:assert_raises_exception(fun() -> throw(something) end),
+    true = teal:assert_raises_exception(fun() -> error(something) end),
+    true = teal:assert_raises_exception(fun() -> exit(something) end),
+
+    % Should raise an error when the fun doesn't raises an exception
+    true = teal:raises_exception(fun() ->
+                    teal:assert_raises_exception(fun() -> true end)
+            end).
+
+test_assert_raises_exception_2(_Config) ->
+    Msg = test,
+
+    % Should return true when the fun raises an exception
+    true = teal:assert_raises_exception(fun() -> throw(something) end, Msg),
+    true = teal:assert_raises_exception(fun() -> error(something) end, Msg),
+    true = teal:assert_raises_exception(fun() -> exit(something) end, Msg),
+
+    % Should raise an error when the fun doesn't raises an exception
+    true = teal:raises_exception(fun() ->
+                    teal:assert_raises_exception(fun() -> true end, Msg)
+            end).
 
 test_raises_throw(_Config) ->
     % Should return true when the fun raises a throw
