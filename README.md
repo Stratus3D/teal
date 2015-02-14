@@ -33,6 +33,8 @@ All the teal modules should now be able in your tests.
         teal:not_equal(a, b). %=> true
         teal:not_equal(a, a). %=> false
 
+* ``
+
 ####teal_lists
 * `includes_members/2` - Args: `List :: list(), Members :: list()`
 
@@ -161,12 +163,18 @@ All the teal modules should now be able in your tests.
        teal_numbers:close_to(4, 10, 5). %=> false
 
 ## TODO
-Create the following assertions:
 
-  * `teal:assert_raises_exception/2` Args: `Fun :: fun(), ErrMsg :: term()`
-  * `teal:assert_raises_throw/2` Args: `Fun :: fun(), ErrMsg :: term()`
-  * `teal:assert_raises_error/2` Args: `Fun :: fun(), ErrMsg :: term()`
-  * `teal:assert_raises_exit/2` Args: `Fun :: fun(), ErrMsg :: term()`
+* Re-evaluate the 24 functions related to check for exceptions in teal.erl. Can the code be simplified?
+* Use teal to test teal? Not sure if this is a good idea or not.
+* Create the following assertions:
+  * `teal:raises_exception/1` Args: `Fun :: fun()`
+  * `teal:raises_exception_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+  * `teal:raises_throw/1` Args: `Fun :: fun()`
+  * `teal:raises_throw_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+  * `teal:raises_error/1` Args: `Fun :: fun()`
+  * `teal:raises_error_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+  * `teal:raises_exit/1` Args: `Fun :: fun()`
+  * `teal:raises_exit_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
