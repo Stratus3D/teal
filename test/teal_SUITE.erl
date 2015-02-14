@@ -17,7 +17,16 @@
          test_assert/1,
          test_raises_exception/1, test_assert_raises_exception_1/1,
          test_assert_raises_exception_2/1,
-         test_raises_throw/1, test_raises_error/1,
+         test_raises_exception_with_message/1,
+         test_assert_raises_exception_with_message_1/1,
+         test_assert_raises_exception_with_message_2/1,
+         test_raises_throw/1,
+         test_assert_raises_throw_1/1,
+         test_assert_raises_throw_2/1,
+         test_raises_throw_with_message/1,
+         test_assert_raises_throw_with_message_1/1,
+         test_assert_raises_throw_with_message_2/1,
+         test_raises_error/1,
          test_raises_exit/1]).
 
 -include_lib("common_test/include/ct.hrl").
@@ -31,7 +40,16 @@ all() ->
      test_assert,
      test_raises_exception, test_assert_raises_exception_1,
      test_assert_raises_exception_2,
-     test_raises_throw, test_raises_error,
+     test_raises_exception_with_message,
+     test_assert_raises_exception_with_message_1,
+     test_assert_raises_exception_with_message_2,
+     test_raises_throw,
+     test_assert_raises_throw_1,
+     test_assert_raises_throw_2,
+     test_raises_throw_with_message,
+     test_assert_raises_throw_with_message_1,
+     test_assert_raises_throw_with_message_2,
+     test_raises_error,
      test_raises_exit].
 
 suite() ->
@@ -156,6 +174,52 @@ test_assert_raises_exception_2(_Config) ->
                     teal:assert_raises_exception(fun() -> true end, Msg)
             end).
 
+test_raises_exception_with_message(_Config) ->
+    Msg = something,
+
+    % Should return true when the fun raises an exception
+    true = teal:raises_exception_with_message(fun() -> throw(Msg) end, Msg),
+    true = teal:raises_exception_with_message(fun() -> error(Msg) end, Msg),
+    true = teal:raises_exception_with_message(fun() -> exit(Msg) end, Msg),
+
+    % Should return false when the fun doesn't raises an exception
+    false = teal:raises_exception_with_message(fun() -> true end, Msg).
+
+test_assert_raises_exception_with_message_1(_Config) ->
+    Msg = something,
+
+    % Should return true when the fun raises an exception
+    true = teal:assert_raises_exception_with_message(fun() ->
+                    throw(Msg) end, Msg),
+    true = teal:assert_raises_exception_with_message(fun() ->
+                    error(Msg) end, Msg),
+    true = teal:assert_raises_exception_with_message(fun() ->
+                    exit(Msg) end, Msg),
+
+    % Should raise an error when the fun doesn't raises an exception
+    true = teal:raises_exception(fun() ->
+                    teal:assert_raises_exception_with_message(fun() ->
+                                true end, Msg)
+            end).
+
+test_assert_raises_exception_with_message_2(_Config) ->
+    ErrMsg = something,
+    Msg = test,
+
+    % Should return true when the fun raises an exception
+    true = teal:assert_raises_exception_with_message(fun() ->
+                    throw(ErrMsg) end, ErrMsg, Msg),
+    true = teal:assert_raises_exception_with_message(fun() ->
+                    error(ErrMsg) end, ErrMsg, Msg),
+    true = teal:assert_raises_exception_with_message(fun() ->
+                    exit(ErrMsg) end, ErrMsg, Msg),
+
+    % Should raise an error when the fun doesn't raises an exception
+    teal:assert_raises_exception(fun() ->
+                    teal:assert_raises_exception_with_message(fun() ->
+                            true end, ErrMsg, Msg)
+            end).
+
 test_raises_throw(_Config) ->
     % Should return true when the fun raises a throw
     true = teal:raises_throw(fun() -> throw(something) end),
@@ -163,12 +227,71 @@ test_raises_throw(_Config) ->
     % Should return false when the fun doesn't raises a throw
     false = teal:raises_throw(fun() -> true end).
 
+test_assert_raises_throw_1(_Config) ->
+    % Should return true when the fun raises a throw
+    true = teal:assert_raises_throw(fun() -> throw(something) end),
+
+    % Should raise an error when the fun doesn't raises an throw
+    teal:assert_raises_exception(fun() ->
+                    teal:assert_raises_throw(fun() -> true end)
+            end).
+
+test_assert_raises_throw_2(_Config) ->
+    Msg = test,
+
+    % Should return true when the fun raises a throw
+    true = teal:assert_raises_throw(fun() -> throw(something) end, Msg),
+
+    % Should raise an error when the fun doesn't raises an throw
+    teal:assert_raises_exception(fun() ->
+                    teal:assert_raises_throw(fun() -> true end, Msg)
+            end).
+
+test_raises_throw_with_message(_Config) ->
+    ErrMsg = something,
+
+    % Should return true when the fun raises a throw
+    true = teal:raises_throw_with_message(fun() -> throw(something) end, ErrMsg),
+
+    % Should return false when the fun doesn't raises a throw
+    false = teal:raises_throw_with_message(fun() -> true end, ErrMsg).
+
+test_assert_raises_throw_with_message_1(_Config) ->
+    ErrMsg = something,
+
+    % Should return true when the fun raises a throw with a matching message
+    true = teal:assert_raises_throw_with_message(fun() ->
+                    throw(ErrMsg) end, ErrMsg),
+
+    % Should raise an error when the fun doesn't raises an throw with a matching
+    % message
+    teal:assert_raises_exception(fun() ->
+                    teal:assert_raises_throw_with_message(fun() ->
+                            true end, ErrMsg)
+            end).
+
+test_assert_raises_throw_with_message_2(_Config) ->
+    ErrMsg = something,
+    Msg = test,
+
+    % Should return true when the fun raises a throw
+    true = teal:assert_raises_throw_with_message(fun() ->
+                    throw(ErrMsg) end, ErrMsg, Msg),
+
+    % Should raise an error when the fun doesn't raises an throw
+    teal:assert_raises_exception(fun() ->
+                    teal:assert_raises_throw_with_message(fun() ->
+                            true end, ErrMsg, Msg)
+            end).
+
+
 test_raises_error(_Config) ->
     % Should return true when the fun raises an error
     true = teal:raises_error(fun() -> error(something) end),
 
     % Should return false when the fun doesn't raises an error
     false = teal:raises_error(fun() -> true end).
+
 
 test_raises_exit(_Config) ->
     % Should return true when the fun raises an exit
