@@ -48,17 +48,67 @@ The API is documented below. Most of the functions listed return a boolean. **Of
 
 * `teal:raises_exception/1` Args: `Fun :: fun()`
 
-   Checks if an exception was raised when invoking `Fun`.
+   Checks if an exception was raised when invoking `Fun`. You are probably better of being more specific. Check the other functions below.
 
-        
+        teal:raises_exception(fun() -> error(err) end). %=> true
+        teal:raises_exception(fun() -> true end). %=> false
 
 * `teal:raises_exception_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+
+   Checks if an exception with a message matching `ErrMsg` was raised when invoking `Fun`.
+
+        ErrMsg = some_err_msg,
+        teal:raises_exception_with_message(fun() -> error(ErrMsg) end, ErrMsg). %=> true
+        teal:raises_exception_with_message(fun() -> error(another_err) end, ErrMsg). %=> false
+        teal:raises_exception_with_message(fun() -> true end, ErrMsg). %=> false
+
 * `teal:raises_throw/1` Args: `Fun :: fun()`
+
+   Checks if a throw exception was raised when invoking `Fun`.
+
+        teal:raises_throw(fun() -> throw(err) end). %=> true
+        teal:raises_throw(fun() -> true end). %=> false
+
 * `teal:raises_throw_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+
+   Checks if a throw exception with a message matching `ErrMsg` was raised when invoking `Fun`.
+
+        ErrMsg = some_err_msg,
+        teal:raises_throw_with_message(fun() -> throw(ErrMsg) end, ErrMsg). %=> true
+        teal:raises_throw_with_message(fun() -> throw(another_err) end, ErrMsg). %=> false
+        teal:raises_throw_with_message(fun() -> true end, ErrMsg). %=> false
+
 * `teal:raises_error/1` Args: `Fun :: fun()`
+
+   Checks if an error exception was raised when invoking `Fun`.
+
+        teal:raises_error(fun() -> error(err) end). %=> true
+        teal:raises_error(fun() -> true end). %=> false
+
 * `teal:raises_error_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+
+   Checks if an error exception with a message matching `ErrMsg` was raised when invoking `Fun`.
+
+        ErrMsg = some_err_msg,
+        teal:raises_error_with_message(fun() -> error(ErrMsg) end, ErrMsg). %=> true
+        teal:raises_error_with_message(fun() -> error(another_err) end, ErrMsg). %=> false
+        teal:raises_error_with_message(fun() -> true end, ErrMsg). %=> false
+
 * `teal:raises_exit/1` Args: `Fun :: fun()`
+
+   Checks if an exit was raised when invoking `Fun`.
+
+        teal:raises_exit(fun() -> exit(err) end). %=> true
+        teal:raises_exit(fun() -> true end). %=> false
+
 * `teal:raises_exit_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+
+   Checks if an exit with a message matching `ErrMsg` was raised when invoking `Fun`.
+
+        ErrMsg = some_err_msg,
+        teal:raises_exit_with_message(fun() -> exit(ErrMsg) end, ErrMsg). %=> true
+        teal:raises_exit_with_message(fun() -> exit(another_err) end, ErrMsg). %=> false
+        teal:raises_exit_with_message(fun() -> true end, ErrMsg). %=> false
 
 ####teal_lists
 * `includes_members/2` - Args: `List :: list(), Members :: list()`
