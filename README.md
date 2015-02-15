@@ -6,13 +6,22 @@ Stratus3D
 ## Description
 An Erlang assertion library. Writing unit tests for Erlang applications is usually pretty straightforward. After all, most of the time you are just testing functions. Testing functions is easy because you just invoke a function with some parameters and then check if the expected value was returned. With pattern matching this is trivial. However, not everything is so simple. Say for example, you want to test that a module implements a certain behavior. You could do something like this:
 
-    <write example>
+    % Check if a module exports all the callbacks defined in a behavior
+    Exports = module_under_test:module_info(exports),
+    lists:foreach(fun(Callback) ->
+            % Assert the callback is in the list of exported functions
+            true = lists:member(Callback, Exports)
+            end, [ % Callbacks defined in behaviour
+                {callback_1, 1},
+                {another_callback, 2},
+                {a_third, 0}
+            ]).
 
 Or with Teal, it would be as simple as:
 
     teal_behaviours:assert_implements_behaviour(module_under_test, expected_behavior).
 
-Teal does all the hard work behind the scenes verifying that the module does in fact implement the behavior.
+Teal does all the hard work behind the scenes verifying that the module does in fact implement the behavior. And unlike the custom code in the first example, Teal's `implements_behaviour` function will work with any behavior.
 
 I created Teal because I kept writing similar test helper functions in my unit tests. I tried to extract all the common patterns I saw in my test helpers into generic functions in Teal. This library by no means complete. I am sure there are common assertions that I missed. If you have anything that you think should be part of Teal feel free to create a pull request or issue on GitHub.
 
