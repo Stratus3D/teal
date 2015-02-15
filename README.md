@@ -1,29 +1,42 @@
-teal
+Teal
 ====
 
 Stratus3D
 
 ## Description
-An experimental Erlang assertion library. Still in development.
+An Erlang assertion library. Writing unit tests for Erlang applications is usually pretty straightforward. After all, most of the time you are just testing functions. Testing functions is easy because you just invoke a function with some parameters and then check if the expected value was returned. With pattern matching this is trivial. However, not everything is so simple. Say for example, you want to test that a module implements a certain behavior. You could do something like this:
 
+    <write example>
+
+Or with Teal, it would be as simple as:
+
+    teal_behaviours:assert_implements_behaviour(module_under_test, expected_behavior).
+
+Teal does all the hard work behind the scenes verifying that the module does in fact implement the behavior.
+
+I created Teal because I kept writing similar test helper functions in my unit tests. I tried to extract all the common patterns I saw in my test helpers into generic functions in Teal. This library by no means complete. I am sure there are common assertions that I missed. If you have anything that you think should be part of Teal feel free to create a pull request or issue on GitHub.
+
+For Elixir, checkout [Lilac](http://github.com/Stratus3D/lilac), an Elixir wrapper for Teal.
 
 ## Installation
 
-To build teal `cd` to the project root and run `make`.
+To build Teal `cd` into the root and run `make`.
 
-To make teal available during your tests. Added it to your `ERL_LIBS` environment variable(most likely defined in `~/.bashrc` if you are using Bash):
+To make the Teal modules available during your tests. Added it to your `ERL_LIBS` environment variable(most likely defined in `~/.bashrc` if you are using Bash):
 
     export ERL_LIBS=/full/path/to/teal/
 
-Also add it to your Erlang resource file (`~/.erlang`) like so:
+Or add it to your Erlang resource file (`~/.erlang`) like so:
 
     code:load_abs("/full/path/to/teal/").
 
-All the teal modules should now be able in your tests.
+All the Teal modules should now be able in your tests.
 
 ## Usage
+Once you have the Teal installed you should be able to use any of the functions below in your Common Test or EUnit test suites. You could also use Teal directly in your application if you wanted. But most of the functions are only useful in unit tests. For example, using functions like `teal:raises_exception` in your application code would violate Erlang's "fail fast" principle in most cases.
 
 ## API
+The API is documented below. Most of the functions listed return a boolean. **Of the functions that return booleans, there are two additional variations of each function that are not documented below.** By prefixing one of these functions with `assert_` (e.g. `teal_lists:includes_members` becomes `teal_lists:assert_includes_members`) an exception is raised if the assertion fails instead of returning false. This allows you to ignore the return value since failure causes an error to be raised. Functions prefixed with `assert_` can also take an additional argument. The extra argument is the message in the error that is raised when the assertion fails. This allows you to generate more readable failure messages.
 
 ####teal
 * `not_equal/2` - Args: `Term1 :: term(), Term2 :: term()`
@@ -33,7 +46,19 @@ All the teal modules should now be able in your tests.
         teal:not_equal(a, b). %=> true
         teal:not_equal(a, a). %=> false
 
-* ``
+* `teal:raises_exception/1` Args: `Fun :: fun()`
+
+   Checks if an exception was raised when invoking `Fun`.
+
+        
+
+* `teal:raises_exception_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+* `teal:raises_throw/1` Args: `Fun :: fun()`
+* `teal:raises_throw_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+* `teal:raises_error/1` Args: `Fun :: fun()`
+* `teal:raises_error_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
+* `teal:raises_exit/1` Args: `Fun :: fun()`
+* `teal:raises_exit_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
 
 ####teal_lists
 * `includes_members/2` - Args: `List :: list(), Members :: list()`
@@ -164,17 +189,9 @@ All the teal modules should now be able in your tests.
 
 ## TODO
 
-* Re-evaluate the 24 functions related to check for exceptions in teal.erl. Can the code be simplified?
-* Use teal to test teal? Not sure if this is a good idea or not.
+* Re-evaluate the 24 functions related to check for exceptions in teal.erl. Can the code be simplified? The code is not DRY at all right now.
+* Use Teal to test Teal? Not sure if this is a good idea or not.
 * Create the following assertions:
-  * `teal:raises_exception/1` Args: `Fun :: fun()`
-  * `teal:raises_exception_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
-  * `teal:raises_throw/1` Args: `Fun :: fun()`
-  * `teal:raises_throw_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
-  * `teal:raises_error/1` Args: `Fun :: fun()`
-  * `teal:raises_error_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
-  * `teal:raises_exit/1` Args: `Fun :: fun()`
-  * `teal:raises_exit_with_message/2` Args: `Fun :: fun(), ErrMsg :: term()`
   * `teal_os:command/1`
   * `teal_os:command_status/2`
   * `teal_os:command_output/2`
