@@ -187,55 +187,55 @@ The API is documented below. Most of the functions listed return a boolean. **Of
 
     Checks `Process` is registered.
 
-       teal_processes:is_registered(RegisteredPidOrAtom). %=> true
-       teal_processes:is_registered(UnregisteredPidOrAtom). %=> false
+        teal_processes:is_registered(RegisteredPidOrAtom). %=> true
+        teal_processes:is_registered(UnregisteredPidOrAtom). %=> false
 
 * `is_registered_with_name/2` - Args: `Process :: pid(), Name :: atom()`
 
     Checks if `Process` is registered with `Name`. Similar to `teal_processes:is_registered/1`.
 
-       RegisteredPidOrAtom = <0.43.0>,
-       UnregisteredName = <0.112.0>,
-       register(RegisteredName, RegisteredPidOrAtom),
-       teal_processes:is_registered_with_name(RegisteredPidOrAtom, RegisteredName). %=> true
-       teal_processes:is_registered_with_name(UnregisteredPidOrAtom, UnregisteredName). %=> false
+        RegisteredPidOrAtom = <0.43.0>,
+        UnregisteredName = <0.112.0>,
+        register(RegisteredName, RegisteredPidOrAtom),
+        teal_processes:is_registered_with_name(RegisteredPidOrAtom, RegisteredName). %=> true
+        teal_processes:is_registered_with_name(UnregisteredPidOrAtom, UnregisteredName). %=> false
 
 * `get_state/1` - Args: `Process :: pid() | atom()`
 
     Returns the state of the `Process`. `Process` must be either a gen_server, gen_event, or gen_fsm process.
 
-       teal_processes:get_state(RegisteredPidOrAtom). %=> returns RegisteredPidOrAtom processes' state.
+        teal_processes:get_state(RegisteredPidOrAtom). %=> returns RegisteredPidOrAtom processes' state.
 
 * `receive_message/2` - Args: `Message :: term(), Timeout :: integer()`
 
     Returns a pid, if the pid does not receive the given message before the timeout the pid raises an error.
 
-       Msg = test,
-       function_that_sends_msg_to_self(Msg),
-       teal_processes:receive_message(Msg, 500), %=> true
-       teal_processes:receive_message(Msg, 500), %=> false
+        Msg = test,
+        function_that_sends_msg_to_self(Msg),
+        teal_processes:receive_message(Msg, 500), %=> true
+        teal_processes:receive_message(Msg, 500), %=> false
 
 ####teal_behaviours
 * `has_callback/3` - Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
 
    Checks if `Module` has a function with `Name` and `Arity`.
 
-       teal_behaviours:has_callback(gen_server, handle_call, 3). %=> true
-       teal_behaviours:has_callback(erlang, callback, 1). %=> false
+        teal_behaviours:has_callback(gen_server, handle_call, 3). %=> true
+        teal_behaviours:has_callback(erlang, callback, 1). %=> false
 
 * `is_behaviour/1` - Args: `Module :: atom()`
 
    Checks if a `Module` is also a behaviour. This is done by checking the module for callback attributes. If any are found `Module` is considered a behaviour.
 
-       teal_behaviours:is_behaviour(gen_server). %=> true
-       teal_behaviours:is_behaviour(erlang). %=> false
+        teal_behaviours:is_behaviour(gen_server). %=> true
+        teal_behaviours:is_behaviour(erlang). %=> false
 
 * `implements_behaviour/2` - Args: `Module :: atom(), Behaviour :: atom()`
 
    Check if `Module` implements all the callbacks defined in `Behaviour`. If functions with the same name and arity exist for each callback in `Behaviour` `Module` is assumed to have implemented `Behaviour` correctly.
 
-       teal_behaviours:implements_behaviour(supervisor, gen_server). %=> true
-       teal_behaviours:implements_behaviour(erlang, gen_server). %=> false
+        teal_behaviours:implements_behaviour(supervisor, gen_server). %=> true
+        teal_behaviours:implements_behaviour(erlang, gen_server). %=> false
 
 ####teal_numbers
 
@@ -243,8 +243,8 @@ The API is documented below. Most of the functions listed return a boolean. **Of
 
     Checks if `Received` is within `Delta` of `Value`. If it is the function returns true. Otherwise it returns false.
 
-       teal_numbers:close_to(7, 10, 5). %=> true
-       teal_numbers:close_to(4, 10, 5). %=> false
+        teal_numbers:close_to(7, 10, 5). %=> true
+        teal_numbers:close_to(4, 10, 5). %=> false
 
 ## TODO
 
