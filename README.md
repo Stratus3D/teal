@@ -249,6 +249,7 @@ The API is documented below. Most of the functions listed return a boolean. **Of
 ## TODO
 
 * Re-evaluate the 24 functions related to check for exceptions in teal.erl. Can the code be simplified? The code is not DRY at all right now.
+* Create a `teal_time` module to handle time and date and datetime assertions.
 * Use Teal to test Teal? Not sure if this is a good idea or not.
 * Create the following assertions:
   * `teal_os:command/1`
