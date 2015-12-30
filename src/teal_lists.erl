@@ -3,7 +3,8 @@
 -export([is_flat/1, assert_is_flat/1, assert_is_flat/2,
         same_members/2, assert_same_members/2, assert_same_members/3,
          includes_members/2, assert_includes_members/2, assert_includes_members/3,
-         assert_include/2, include/2
+         assert_include/2, include/2,
+         order/2, assert_order/2, assert_order/3
         ]).
 
 -spec is_flat(List :: list()) -> true.
@@ -90,3 +91,18 @@ include(List, Item) ->
 
 assert_include(List, Item) ->
     teal:assert(true, include(List, Item), member_missing).
+
+-spec order(List :: list(), OrderFun :: fun()) -> boolean().
+
+order(List, OrderFun) ->
+    List = lists:sort(OrderFun, List).
+
+-spec assert_order(List :: list(), OrderFun :: fun()) -> true.
+
+assert_order(List, OrderFun) ->
+    teal:assert(true, order(List, OrderFun), wrong_order).
+
+-spec assert_order(List :: list(), OrderFun :: fun(), Msg :: any()) -> true.
+
+assert_order(List, OrderFun, Msg) ->
+    teal:assert(true, order(List, OrderFun), Msg).
