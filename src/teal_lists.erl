@@ -95,7 +95,7 @@ assert_include(List, Item) ->
 -spec order(List :: list(), OrderFun :: fun()) -> boolean().
 
 order(List, OrderFun) ->
-    List = lists:sort(OrderFun, List).
+    List =:= lists:sort(OrderFun, List).
 
 -spec assert_order(List :: list(), OrderFun :: fun()) -> true.
 

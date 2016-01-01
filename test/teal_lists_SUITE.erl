@@ -17,7 +17,8 @@
          test_same_members/1, test_assert_same_members_2/1, test_assert_same_members_3/1,
          test_includes_members/1, test_assert_includes_members/1, test_assert_includes_members_3/1,
          test_include/1,
-         test_assert_include/1]).
+         test_assert_include/1,
+         test_order/1, test_assert_order_2/1, test_assert_order_3/1]).
 
 -include_lib("common_test/include/ct.hrl").
 
@@ -29,7 +30,8 @@ all() ->
     [test_is_flat, test_assert_is_flat, test_assert_is_flat,
      test_same_members, test_assert_same_members_2, test_assert_same_members_3,
      test_includes_members, test_assert_includes_members, test_assert_includes_members_3,
-     test_include, test_assert_include].
+     test_include, test_assert_include,
+     test_order, test_assert_order_2, test_assert_order_3].
 
 suite() ->
     [{timetrap, {seconds, 30}}].
@@ -190,5 +192,59 @@ test_assert_include(_Config) ->
         _ -> erlang:error(failed)
     catch
         error:member_missing ->
+            true
+    end.
+
+test_order(_Config) ->
+    Unordered = [3,4,5,1,2],
+    Unordered2 = [b,a,c],
+    Ordered = [1,2,3,4,5],
+    Ordered2 = [a,b,c],
+    Fun = fun(A,B) ->
+            A =< B
+    end,
+
+    % Should return true when the order matches the order specified by the fun
+    true = teal_lists:order(Ordered, Fun),
+    true = teal_lists:order(Ordered2, Fun),
+
+    % Should return false when the order does not match the order specified by the fun
+    false = teal_lists:order(Unordered, Fun),
+    false = teal_lists:order(Unordered2, Fun).
+
+test_assert_order_2(_Config) ->
+    Unordered = [3,4,5,1,2],
+    Ordered = [1,2,3,4,5],
+    Fun = fun(A,B) ->
+            A =< B
+    end,
+
+    % Should return true when the order matches the order specified by the fun
+    true = teal_lists:assert_order(Ordered, Fun),
+
+    % Should raise an error if the order does not match the order specified by the fun
+    try teal_lists:assert_order(Unordered, Fun) of
+        _ -> erlang:error(failed)
+    catch
+        error:wrong_order ->
+            true
+    end.
+
+test_assert_order_3(_Config) ->
+    Error = msg,
+    Unordered = [3,4,5,1,2],
+    Ordered = [1,2,3,4,5],
+    Fun = fun(A,B) ->
+            A =< B
+    end,
+
+    % Should return true when the order matches the order specified by the fun
+    true = teal_lists:assert_order(Ordered, Fun, Error),
+
+    % Should raise an error if the order does not match the order specified by the fun
+    try teal_lists:assert_order(Unordered, Fun, Error) of
+        _ -> erlang:error(failed)
+    catch
+        error:Error ->
             true
     end.
