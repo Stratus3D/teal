@@ -134,6 +134,16 @@ The API is documented below. Most of the functions listed return a boolean. **Of
         teal_lists:same_members([1,2,3,4], [4,2,3,1]). %=> true
         teal_lists:same_members([1,2,3,4], [2,4]). %=> false
 
+* `order/2` - Args: `List :: list(), OrderFun :: list()`
+
+   Checks if all the members in `List` are already in the order specified by the `OrderFun`. `List` is sorted by `OrderFun` and then matched against `List`. If the two lists match the order is correct and the function returns true. Otherwise it returns false.
+
+        Fun = fun(A,B) ->
+                A =< B
+        end,
+        teal_lists:order([1,2,3,4], Fun). %=> true
+        teal_lists:order([1,4,3,2], Fun). %=> false
+
 ####teal_types
 * `not_of_type/2` - Args: `Term :: any(), Type :: atom()`
 
