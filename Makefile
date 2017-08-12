@@ -2,10 +2,13 @@ PROJECT = teal
 
 .PHONY: console
 
-CT_SUITES = teal teal_lists teal_modules teal_processes teal_behaviours \
-			teal_types teal_numbers
+BUILD_DEPS = hexer_mk
 
-EDOC_OPTS= {overview, "edoc/overview.edoc"}
+dep_hexer_mk = git https://github.com/inaka/hexer.mk.git 1.1.0
+
+DEP_PLUGINS = hexer_mk
+
+EDOC_OPTS = {overview, "edoc/overview.edoc"}
 
 include erlang.mk
 
