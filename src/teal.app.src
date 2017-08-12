@@ -1,5 +1,5 @@
 {application, teal,
-  [{vsn, "0.1.0"},
+  [{vsn, "0.1.1"},
    {description, "An Erlang library that provides matching and assertion functions for testing."},
    {licenses, ["MIT"]},
   {modules, [teal]},
