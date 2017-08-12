@@ -9,6 +9,7 @@ hexer
 hexer.config
 
 # Ignore directories containing deps, beam files, logs and compiled docs
+.erlang.mk/
 deps/
 ebin/
 log/
