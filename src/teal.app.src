@@ -1,6 +1,13 @@
 {application, teal,
   [{vsn, "0.1.0"},
+   {description, "An Erlang library that provides matching and assertion functions for testing."},
+   {licenses, ["MIT"]},
   {modules, [teal]},
   {registered, []},
-  {mod, {teal, []}}
+  {mod, {teal, []}},
+  {links, [
+           {"Homepage", "https://github.com/Stratus3D/teal"},
+           {"Git Repository", "https://github.com/Stratus3D/teal"}
+          ]},
+  {maintainers, ["Stratus3D"]}
   ]}.
