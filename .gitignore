@@ -1,8 +1,12 @@
 *.o
 *.beam
 *.plt
+*.out
+teal.d
 erl_crash.dump
 .eunit
+hexer
+hexer.config
 
 # Ignore directories containing deps, beam files, logs and compiled docs
 deps/
