@@ -47,7 +47,7 @@ Once you have the Teal installed you should be able to use any of the functions 
 ## API
 The API is documented below. Most of the functions listed return a boolean. **Of the functions that return booleans, there are two additional variations of each function that are not documented below.** By prefixing one of these functions with `assert_` (e.g. `teal_lists:includes_members` becomes `teal_lists:assert_includes_members`) an exception is raised if the assertion fails instead of returning false. This allows you to ignore the return value since failure causes an error to be raised. Functions prefixed with `assert_` can also take an additional argument. The extra argument is the message in the error that is raised when the assertion fails. This allows you to generate more readable failure messages.
 
-####teal
+#### teal
 * `not_equal/2` - Args: `Term1 :: term(), Term2 :: term()`
 
    Verifies that first term does not match the second.
@@ -119,7 +119,7 @@ The API is documented below. Most of the functions listed return a boolean. **Of
         teal:raises_exit_with_message(fun() -> exit(another_err) end, ErrMsg). %=> false
         teal:raises_exit_with_message(fun() -> true end, ErrMsg). %=> false
 
-####teal_lists
+#### teal_lists
 * `includes_members/2` - Args: `List :: list(), Members :: list()`
 
    Checks if all members of the `Members` list are present in the `List` list. Examples:
@@ -144,7 +144,7 @@ The API is documented below. Most of the functions listed return a boolean. **Of
         teal_lists:order([1,2,3,4], Fun). %=> true
         teal_lists:order([1,4,3,2], Fun). %=> false
 
-####teal_types
+#### teal_types
 * `not_of_type/2` - Args: `Term :: any(), Type :: atom()`
 
    Checks if `Term` is not of type `Type`
@@ -170,7 +170,7 @@ The API is documented below. Most of the functions listed return a boolean. **Of
         teal_types:could_be_record(not_a_record). %=> false
 
 
-####teal_modules
+#### teal_modules
 * `is_module/1` - Args: `ModuleName :: atom()`
 
    Checks if `ModuleName` is the name of an Erlang module.
@@ -192,7 +192,7 @@ The API is documented below. Most of the functions listed return a boolean. **Of
         teal_modules:exports(erlang, port_call, 2). %=> true
         teal_modules:exports(erlang, port_call, 1). %=> false
 
-####teal_processes
+#### teal_processes
 * `is_registered/1` - Args: `Process :: pid() | atom()`
 
     Checks `Process` is registered.
@@ -225,7 +225,7 @@ The API is documented below. Most of the functions listed return a boolean. **Of
         teal_processes:receive_message(Msg, 500), %=> true
         teal_processes:receive_message(Msg, 500), %=> false
 
-####teal_behaviours
+#### teal_behaviours
 * `has_callback/3` - Args: `Module :: atom(), Name :: atom(), Arity :: integer()`
 
    Checks if `Module` has a function with `Name` and `Arity`.
@@ -247,7 +247,7 @@ The API is documented below. Most of the functions listed return a boolean. **Of
         teal_behaviours:implements_behaviour(supervisor, gen_server). %=> true
         teal_behaviours:implements_behaviour(erlang, gen_server). %=> false
 
-####teal_numbers
+#### teal_numbers
 
 * `close_to/3` - Args: `Received :: float(), Value :: float(), Delta :: float()`
 
